@@ -1,14 +1,13 @@
 package com.klr.advent;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class LocationLists {
 
     private final List<Integer> list1 = new ArrayList<>();
     private final List<Integer> list2 = new ArrayList<>();
+    private final  Map<Integer, Integer> map1 = new HashMap<>();
+    private final  Map<Integer, Integer> map2 = new HashMap<>();
 
     public void addList1Val(int value) {
         list1.add(value);
@@ -45,8 +44,36 @@ public class LocationLists {
         return list1.size() == list2.size();
     }
 
-    public void sort() {
+    public void sortAndHash() {
         list1.sort(Collections.reverseOrder());
         list2.sort(Collections.reverseOrder());
+        for (int num : list1) {
+            if (map1.containsKey(num)) {
+                map1.put(num, map1.get(num) + 1);
+            }
+            else {
+                map1.put(num, 1);
+            }
+        }
+        for (int num : list2) {
+            if (map2.containsKey(num)) {
+                map2.put(num, map2.get(num) + 1);
+            }
+            else {
+                map2.put(num, 1);
+            }
+        }
+    }
+
+    public int getOccurances1(Integer key) {
+        return map1.getOrDefault(key, 0);
+    }
+
+    public int getOccurances2(Integer key) {
+        return map2.getOrDefault(key, 0);
+    }
+
+    public List<Integer> getKeys() {
+        return new ArrayList<>(map1.keySet());
     }
 }
