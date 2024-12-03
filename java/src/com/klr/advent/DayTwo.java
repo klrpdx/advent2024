@@ -4,7 +4,6 @@ import com.klr.advent.util.FileLoader;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class DayTwo {
