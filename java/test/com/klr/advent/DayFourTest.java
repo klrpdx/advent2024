@@ -243,4 +243,51 @@ class DayFourTest {
         assertEquals(6, merryXmas);
     }
 
+
+    @Test
+    void downRightMasX() throws IOException {
+        final String lines =
+                        ".M.S......\n" +
+                        "..A.......\n" +
+                        ".M.S......\n" +
+                        "..........\n";
+
+
+        final String[] linesArray = lines.split("\n");
+
+        DayFour solver = new DayFour(loader);
+        when(loader.lineCount()).thenReturn(10L);
+        when(loader.readLine())
+                .thenReturn(linesArray[0])
+                .thenReturn(linesArray[1])
+                .thenReturn(linesArray[2])
+                .thenReturn(linesArray[3])
+                .thenReturn(null);
+        int merryXmas = solver.solve2();
+        assertEquals(1, merryXmas);
+    }
+
+    @Test
+    void massMasX() throws IOException {
+        final String lines =
+                        ".M.S.M....\n" +
+                        "..A.A.....\n" +
+                        ".M.S.M....\n" +
+                        "..........\n";
+
+
+        final String[] linesArray = lines.split("\n");
+
+        DayFour solver = new DayFour(loader);
+        when(loader.lineCount()).thenReturn(10L);
+        when(loader.readLine())
+                .thenReturn(linesArray[0])
+                .thenReturn(linesArray[1])
+                .thenReturn(linesArray[2])
+                .thenReturn(linesArray[3])
+                .thenReturn(null);
+        int merryXmas = solver.solve2();
+        assertEquals(2, merryXmas);
+    }
+
 }

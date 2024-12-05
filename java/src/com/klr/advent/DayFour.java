@@ -33,6 +33,27 @@ public class DayFour {
         return found;
     }
 
+    boolean findMasX(char[][] grid, int xStart, int yStart, Direction direction) {
+        boolean found = true;
+        char[] mas = new char[]{'A', 'M', 'S'};
+        int reverse = -1;
+        for (int i = 1; i < 3; i++) {
+            int newX = xStart + direction.getXDir()*reverse;
+            int newY = yStart + direction.getYDir()*reverse;
+            if (newY < 0 || newY >= grid.length || newX < 0 || newX >= grid[0].length) {
+                found = false;
+                break;
+            }
+            char letter = grid[newY][newX];
+            if (letter != mas[i]) {
+                found = false;
+                break;
+            }
+            reverse = 1;
+        }
+        return found;
+    }
+
     private char[][] createArray() throws IOException {
         String nextLine = fileLoader.readLine();
         char[][] xmas = new char[(int) fileLoader.lineCount()][nextLine.length()];
@@ -70,10 +91,30 @@ public class DayFour {
         return countOnXmas;
     }
 
+    public int solve2() throws IOException {
+        char[][] xmas = createArray();
+        int y = 0;
+        int countOnXmas = 0;
+        for (char[] row : xmas) {
+            int x = 0;
+            for (char c : row) {
+                if (c == 'A') {
+                    boolean cross1 = findMasX(xmas, x, y, Direction.UPLEFT) || findMasX(xmas, x, y, Direction.DOWNRIGHT);
+                    boolean cross2 = findMasX(xmas, x, y, Direction.DOWNLEFT) || findMasX(xmas, x, y, Direction.UPRIGHT);
+                    countOnXmas = countOnXmas + (cross1 && cross2 ? 1 : 0);
+                }
+                x++;
+            }
+            y++;
+        }
+        return countOnXmas;
+    }
+
 
     public static void main(String[] args) throws IOException {
         FileLoader fileLoader = new FileLoader("/Users/klr/Projects/advent2024/resources/day4input.txt");
         DayFour solver = new DayFour(fileLoader);
-        System.out.printf("Found %d Xmases!%n",solver.solve());
+        //System.out.printf("Found %d Xmases!%n",solver.solve());
+        System.out.printf("Found %d X-mases!%n",solver.solve2());
     }
 }
