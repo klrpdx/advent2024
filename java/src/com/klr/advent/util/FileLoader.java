@@ -3,6 +3,8 @@ package com.klr.advent.util;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class FileLoader {
 
@@ -22,4 +24,7 @@ public class FileLoader {
     }
 
 
+    public long lineCount() throws IOException {
+        return Files.lines(Paths.get(file)).count();
+    }
 }
