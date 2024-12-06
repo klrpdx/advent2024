@@ -5,14 +5,11 @@ import com.klr.advent.util.FileLoader;
 
 import java.io.IOException;
 
-public class DayFour {
-
-    private final FileLoader fileLoader;
+public class DayFour extends Solver {
 
     DayFour(FileLoader fileLoader) {
-        this.fileLoader = fileLoader;
+        super(fileLoader);
     }
-
 
     boolean findXmas(char[][] grid, int xStart, int yStart, Direction direction) {
         boolean found = true;
