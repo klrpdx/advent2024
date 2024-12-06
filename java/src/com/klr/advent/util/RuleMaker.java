@@ -1,11 +1,8 @@
 package com.klr.advent.util;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class RuleMaker {
+public class RuleMaker implements Comparator<Integer> {
 
     private final Map<Integer, List<Integer>> rules = new HashMap<Integer, List<Integer>>();
 
@@ -21,7 +18,26 @@ public class RuleMaker {
         rules.put(key,list);
     }
 
+
+        @Override
+        public int compare(Integer o1, Integer o2) {
+            List<Integer> lessThanList = rules.get(o1);
+            if (lessThanList !=null &&  lessThanList.contains(o2)) {
+                return -1;
+            }
+            return 1;
+        }
+
+
+
     public List<Integer> getRule(int key) {
         return rules.get(key);
     }
+
+    public List<Integer> fixList(List<Integer> disorderedList) {
+        List<Integer> fixedList = new ArrayList<>(disorderedList);
+        fixedList.sort(this);
+        return fixedList;
+    }
+
 }

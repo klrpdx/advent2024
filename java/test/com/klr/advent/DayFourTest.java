@@ -49,7 +49,7 @@ class DayFourTest {
                 .thenReturn(linesArray[8])
                 .thenReturn(linesArray[9])
                 .thenReturn(null);
-        int merryXmas = solver.solve();
+        Integer merryXmas = (Integer) solver.solve();
         assertEquals(18, merryXmas);
 
     }
@@ -66,7 +66,7 @@ class DayFourTest {
         when(loader.readLine())
                 .thenReturn(linesArray[0])
                 .thenReturn(null);
-        int merryXmas = solver.solve();
+        Integer merryXmas = (Integer)solver.solve();
         assertEquals(2, merryXmas);
 
     }
@@ -83,7 +83,7 @@ class DayFourTest {
         when(loader.readLine())
                 .thenReturn(linesArray[0])
                 .thenReturn(null);
-        int merryXmas = solver.solve();
+        Integer merryXmas = (Integer)solver.solve();
         assertEquals(3, merryXmas);
 
     }
@@ -100,7 +100,7 @@ class DayFourTest {
         when(loader.readLine())
                 .thenReturn(linesArray[0])
                 .thenReturn(null);
-        int merryXmas = solver.solve();
+        Integer merryXmas = (Integer)solver.solve();
         assertEquals(1, merryXmas);
 
     }
@@ -124,7 +124,7 @@ class DayFourTest {
                 .thenReturn(linesArray[2])
                 .thenReturn(linesArray[3])
                 .thenReturn(null);
-        int merryXmas = solver.solve();
+        int merryXmas = (Integer)solver.solve();
         assertEquals(1, merryXmas);
     }
 
@@ -147,7 +147,7 @@ class DayFourTest {
                 .thenReturn(linesArray[2])
                 .thenReturn(linesArray[3])
                 .thenReturn(null);
-        int merryXmas = solver.solve();
+        int merryXmas = (Integer)solver.solve();
         assertEquals(2, merryXmas);
     }
 
@@ -170,7 +170,7 @@ class DayFourTest {
                 .thenReturn(linesArray[2])
                 .thenReturn(linesArray[3])
                 .thenReturn(null);
-        int merryXmas = solver.solve();
+        int merryXmas = (Integer)solver.solve();
         assertEquals(3, merryXmas);
     }
 
@@ -193,7 +193,7 @@ class DayFourTest {
                 .thenReturn(linesArray[2])
                 .thenReturn(linesArray[3])
                 .thenReturn(null);
-        int merryXmas = solver.solve();
+        int merryXmas = (Integer)solver.solve();
         assertEquals(4, merryXmas);
     }
 
@@ -216,7 +216,7 @@ class DayFourTest {
                 .thenReturn(linesArray[2])
                 .thenReturn(linesArray[3])
                 .thenReturn(null);
-        int merryXmas = solver.solve();
+        int merryXmas = (Integer)solver.solve();
         assertEquals(5, merryXmas);
     }
 
@@ -239,7 +239,7 @@ class DayFourTest {
                 .thenReturn(linesArray[2])
                 .thenReturn(linesArray[3])
                 .thenReturn(null);
-        int merryXmas = solver.solve();
+        int merryXmas = (Integer)solver.solve();
         assertEquals(6, merryXmas);
     }
 

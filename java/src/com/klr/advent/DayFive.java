@@ -25,8 +25,13 @@ public class DayFive extends Solver {
         }
     }
 
-    private int checkPages() throws IOException {
+    private int correctOrder() {
+        return 0;
+    }
+
+    private int[] checkPages() throws IOException {
         int middleSum = 0;
+        int middleSumFixed = 0;
         String nextLine;
         while((nextLine = fileLoader.readLine()) != null) {
             String[] parts = nextLine.split(",");
@@ -37,17 +42,19 @@ public class DayFive extends Solver {
                 List<Integer> mustNotComeBefore = ruleMaker.getRule(page);
                 if (mustNotComeBefore != null &&  !Collections.disjoint(cameBefore, mustNotComeBefore)) {
                     valid = false;
+                    List<Integer> ordered = ruleMaker.fixList(pages);
+                    middleSumFixed += ordered.get(ordered.size()/2);
                     break;
                 }
                 cameBefore.add(page);
             }
             middleSum = middleSum +  (valid ? pages.get(pages.size()/2) : 0);
         }
-        return middleSum;
+        return new int[]{middleSum,middleSumFixed};
     }
 
     @Override
-    int solve() throws IOException {
+    int[] solve() throws IOException {
         createRules();
         return checkPages();
     }
@@ -56,6 +63,8 @@ public class DayFive extends Solver {
     public static void main(String[] args) throws IOException {
         FileLoader fileLoader = new FileLoader("/Users/klr/Projects/advent2024/resources/day5input.txt");
         DayFive solver = new DayFive(fileLoader);
-        System.out.println("The solution part 1: "+solver.solve());
+        int[] result = solver.solve();
+        System.out.printf("The solution part 1: %d\n",result[0]);
+        System.out.printf("The solution part 2: %d\n",result[1]);
     }
 }

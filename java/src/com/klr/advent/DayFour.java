@@ -64,7 +64,7 @@ public class DayFour extends Solver {
     }
 
 
-    public int solve() throws IOException {
+    public Object solve() throws IOException {
         char[][] xmas = createArray();
         int y = 0;
         int countOnXmas = 0;

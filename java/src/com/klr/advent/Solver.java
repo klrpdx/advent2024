@@ -13,6 +13,6 @@ public abstract class Solver {
     }
 
 
-    abstract int solve() throws IOException;
+    abstract Object solve() throws IOException;
 
 }
