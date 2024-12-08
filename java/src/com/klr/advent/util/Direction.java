@@ -20,6 +20,19 @@ public enum Direction {
         this.yDir = yDIr;
     }
 
+    public static Direction getDirection(int xDir, int yDir) {
+        if (xDir == 0 && yDir == 1) {
+            return DOWN;
+        }
+        if (xDir == 0 && yDir == -1) {
+            return UP;
+        }
+        if (xDir == 1 && yDir == 0) {
+            return RIGHT;
+        }
+        return LEFT;
+    }
+
     public int getXDir() {
         return xDir;
     }
