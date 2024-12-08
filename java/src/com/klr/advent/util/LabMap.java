@@ -15,6 +15,8 @@ public class LabMap {
     private int yDirection = 0;
     private Set<Point> visited = new HashSet<>();
     private Set<Path> paths = new HashSet<>();
+    private boolean revisitedPath = false;
+    private Path startingPath;
 
     public LabMap(List<String> rows) {
         scanLines(rows);
@@ -42,6 +44,7 @@ public class LabMap {
                         case '>':
                             xDirection = 1;
                     }
+                    startingPath = new Path(Direction.getDirection(xDirection,yDirection),guardLocation.getLocation());
                 }
                 row[index++] = (c == '#');
             }
@@ -75,7 +78,10 @@ public class LabMap {
             Point newLocation = new Point(guardLocation);
             Path newPath = new Path(Direction.getDirection(xDirection, yDirection), newLocation);
             visited.add(newLocation);
-            paths.add(newPath);
+            if (!newPath.equals(startingPath)) {
+                revisitedPath = paths.contains(newPath);
+                paths.add(newPath);
+            }
         }
         return true;
     }
@@ -86,6 +92,14 @@ public class LabMap {
 
     public boolean guardHasLeftTheBuilding() {
         return !boundsCheck(guardLocation.x, guardLocation.y);
+    }
+
+    public boolean revisitedPath() {
+        return revisitedPath;
+    }
+
+    public void addObstacle(int x, int y) {
+        rows.get(y)[x] = true;
     }
 
     public void turnRight() {

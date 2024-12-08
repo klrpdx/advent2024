@@ -171,6 +171,37 @@ class DaySixTest {
         assertEquals(4, map.getPaths().size());
     }
 
+    @Test
+    void revisited() {
+        List<String> rows = new ArrayList<>();
+        rows.add("....#.....");
+        rows.add(".#..#..>..");
+        LabMap map = new LabMap(rows);
+        map.move();
+        map.move();
+        map.turnRight();
+        map.turnRight();
+        map.move();
+        map.move();
+        map.turnRight();
+        map.turnRight();
+        assertFalse(map.revisitedPath());
+
+        map.move();
+        assertTrue(map.revisitedPath());
+    }
+
+    @Test
+    void setObstacle() {
+        List<String> rows = new ArrayList<>();
+        rows.add("....#.....");
+        rows.add(".#..#..>..");
+        LabMap map = new LabMap(rows);
+        map.addObstacle(9,1);
+        map.move();
+        assertFalse(map.move());
+    }
+
 
     @Test
     void loopSolver() throws IOException {
