@@ -2,10 +2,12 @@ package com.klr.advent;
 
 import com.klr.advent.util.FileLoader;
 import com.klr.advent.util.LabMap;
+import com.klr.advent.util.Path;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class DaySix extends Solver {
 
@@ -36,6 +38,8 @@ public class DaySix extends Solver {
 
 
     private Integer findLoops(LabMap labMap) {
+        findGuardRoute(labMap);
+        List<Path> guardPaths = labMap.getPaths();
         return 0;
     }
 

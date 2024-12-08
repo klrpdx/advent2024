@@ -152,6 +152,27 @@ class DaySixTest {
     }
 
     @Test
+    void paths() {
+        List<String> rows = new ArrayList<>();
+        rows.add("....#.....");
+        rows.add(".#..#..>..");
+        LabMap map = new LabMap(rows);
+        map.move();
+        map.move();
+        map.turnRight();
+        map.turnRight();
+        map.move();
+        map.move();
+        map.turnRight();
+        map.turnRight();
+        map.move();
+        map.move();
+
+        assertEquals(4, map.getPaths().size());
+    }
+
+
+    @Test
     void loopSolver() throws IOException {
         DaySix daySix = new DaySix(loader);
         when(loader.readLine())

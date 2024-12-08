@@ -1,8 +1,12 @@
 package com.klr.advent.util;
 
-import javax.print.attribute.HashPrintJobAttributeSet;
 import java.awt.Point;
-import java.util.*;
+import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.ArrayList;
+
+
 
 public class LabMap {
     private final List<boolean[]> rows = new ArrayList<>();
@@ -10,7 +14,7 @@ public class LabMap {
     private int xDirection = 0;
     private int yDirection = 0;
     private Set<Point> visited = new HashSet<>();
-    private int moves;
+    private Set<Path> paths = new HashSet<>();
 
     public LabMap(List<String> rows) {
         scanLines(rows);
@@ -24,7 +28,6 @@ public class LabMap {
             for (char c : line.toCharArray()) {
                 if (c == '^' || c == 'v' || c == '<' || c == '>') {
                     guardLocation.setLocation(index, i);
-                    System.out.printf("Starting Guard Location: (%d,%d)\n",index,i);
                     visited.add(new Point(guardLocation));
                     switch (c) {
                         case '^':
@@ -44,7 +47,6 @@ public class LabMap {
             }
             rows.add(row);
         }
-        System.out.println("Dimensions: "+rows.size()+","+rows.getFirst().length);
     }
 
     public boolean getLocation(int row, int col) {
@@ -53,6 +55,10 @@ public class LabMap {
 
     public Point guardLocation() {
         return guardLocation.getLocation();
+    }
+
+    public List<Path> getPaths() {
+        return new ArrayList<>(paths);
     }
 
     public int totalVisited() {
@@ -67,8 +73,9 @@ public class LabMap {
         }
         if (!guardHasLeftTheBuilding()) {
             Point newLocation = new Point(guardLocation);
+            Path newPath = new Path(Direction.getDirection(xDirection, yDirection), newLocation);
             visited.add(newLocation);
-            moves++;
+            paths.add(newPath);
         }
         return true;
     }
