@@ -35,6 +35,10 @@ public class DaySix extends Solver {
     }
 
 
+    private Integer findLoops(LabMap labMap) {
+        return 0;
+    }
+
 
     @Override
     Integer solve() throws IOException {
@@ -43,6 +47,10 @@ public class DaySix extends Solver {
         return findGuardRoute(labMap);
     }
 
+    Integer solve2() {
+        LabMap labMap = new LabMap(this.asciiMap);
+        return findLoops(labMap);
+    }
 
 
     public static void main(String[] args) throws IOException {

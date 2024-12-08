@@ -151,25 +151,25 @@ class DaySixTest {
         assertEquals(41, moves);
     }
 
-   // @Test
-//    void loopSolver() throws IOException {
-//        DaySix daySix = new DaySix(loader);
-//        when(loader.readLine())
-//                .thenReturn("....#.....")
-//                .thenReturn(".........#")
-//                .thenReturn("..........")
-//                .thenReturn("..#.......")
-//                .thenReturn(".......#..")
-//                .thenReturn("..........")
-//                .thenReturn(".#..^.....")
-//                .thenReturn("........#.")
-//                .thenReturn("#.........")
-//                .thenReturn("......#...")
-//                .thenReturn(null);
-//
-//        daySix.solve();
-//        int loops = daySix.solve2();
-//        assertEquals(6, loops);
-  //  }
+    @Test
+    void loopSolver() throws IOException {
+        DaySix daySix = new DaySix(loader);
+        when(loader.readLine())
+                .thenReturn("....#.....")
+                .thenReturn(".........#")
+                .thenReturn("..........")
+                .thenReturn("..#.......")
+                .thenReturn(".......#..")
+                .thenReturn("..........")
+                .thenReturn(".#..^.....")
+                .thenReturn("........#.")
+                .thenReturn("#.........")
+                .thenReturn("......#...")
+                .thenReturn(null);
+
+        daySix.solve();
+        int loops = daySix.solve2();
+        assertEquals(6, loops);
+    }
 
 }
