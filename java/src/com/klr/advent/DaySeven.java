@@ -15,8 +15,9 @@ public class DaySeven extends Solver {
     @Override
     Object solve() throws IOException {
         String nextLine;
-        int result = 0;
+        long result = 0;
         while ((nextLine = fileLoader.readLine()) != null) {
+            System.out.println(nextLine);
             MathMaker mm = new MathMaker(nextLine);
             if (mm.isSolvable()) {
                 result += mm.getTargetResult();
@@ -28,6 +29,6 @@ public class DaySeven extends Solver {
     public static void main(String[] args) throws IOException {
         FileLoader fileLoader = new FileLoader("/Users/klr/Projects/advent2024/resources/day7input.txt");
         DaySeven solver = new DaySeven(fileLoader);
-        System.out.println("The solution part 1: " + solver.solve());
+        System.out.println("The solution part 1: " + (long)solver.solve());
     }
 }

@@ -78,12 +78,40 @@ class DaySevenTest {
                 .thenReturn("42: 22 20")
                 .thenReturn("292: 11 6 16 20")
                 .thenReturn(null);
-        assertEquals(334, solver.solve());
+        assertEquals(334L, solver.solve());
     }
 
     @Test
     void smallNumbers() {
         final String numbersString = ("27: 2 1 3 3");
+        MathMaker mathMaker = new MathMaker(numbersString);
+        assertTrue(mathMaker.isSolvable());
+    }
+
+    @Test
+    void multipleSolutions() {
+        final String numbersString = ("3267: 81 40 27");
+        MathMaker mathMaker = new MathMaker(numbersString);
+        assertTrue(mathMaker.isSolvable());
+    }
+
+    @Test
+    void simpleConcat() {
+        final String numbersString = ("156: 15 6");
+        MathMaker mathMaker = new MathMaker(numbersString);
+        assertTrue(mathMaker.isSolvable());
+    }
+
+    @Test
+    void lessSimpleConcat() {
+        final String numbersString = ("7290: 6 8 6 15");
+        MathMaker mathMaker = new MathMaker(numbersString);
+        assertTrue(mathMaker.isSolvable());
+    }
+
+    @Test
+    void weirdConcat() {
+        final String numbersString = ("1111: 1 1 11");
         MathMaker mathMaker = new MathMaker(numbersString);
         assertTrue(mathMaker.isSolvable());
     }
