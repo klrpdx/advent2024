@@ -17,7 +17,6 @@ public class DaySeven extends Solver {
         String nextLine;
         long result = 0;
         while ((nextLine = fileLoader.readLine()) != null) {
-            System.out.println(nextLine);
             MathMaker mm = new MathMaker(nextLine);
             if (mm.isSolvable()) {
                 result += mm.getTargetResult();

@@ -44,8 +44,6 @@ public class MathMaker {
             newResultSliced = Long.parseLong(concatted.substring(0, concatted.length()-numString.length()));
         }
         return solve(newResultAdd, operands.subList(0, operands.size()-1)) || solve(newResultMult, operands.subList(0, operands.size()-1)) || solve(newResultSliced, operands.subList(0, operands.size()-1));
-
-        //return solve(newResultAdd, operands.subList(0, operands.size()-1)) || solve(newResultMult, operands.subList(0, operands.size()-1));
     }
 
 
