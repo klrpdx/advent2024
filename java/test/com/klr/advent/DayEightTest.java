@@ -149,7 +149,7 @@ class DayEightTest {
             map.scanLine(line);
         }
         List<Point> antinodes = map.getAllAntinodes();
-        assertEquals(2, antinodes.size());
+        assertEquals(4, antinodes.size());
         assertTrue(antinodes.contains(antinode1));
         assertTrue(antinodes.contains(antinode2));
     }
@@ -161,14 +161,14 @@ class DayEightTest {
                         "............\n" +
                         "..........#.\n" +
                         ".......0....\n" +
-                        "....0.......\n" +
+                        "#...0.......\n" +
                         ".#..........\n" +
                         "..a.........\n" +
                         "...a........\n" +
                         "....#.......\n" +
-                        "............\n" +
-                        "............\n" +
-                        "............";
+                        ".....#......\n" +
+                        "......#.....\n" +
+                        ".......#....";
 
         final Point antinode1 = new Point(10, 2);
         final Point antinode2 = new Point(1, 5);
@@ -180,7 +180,7 @@ class DayEightTest {
             map.scanLine(line);
         }
         List<Point> antinodes = map.getAllAntinodes();
-        assertEquals(3, antinodes.size());
+        assertEquals(11, antinodes.size());
         assertTrue(antinodes.contains(antinode1));
         assertTrue(antinodes.contains(antinode2));
         assertTrue(antinodes.contains(antinode3));
@@ -193,14 +193,14 @@ class DayEightTest {
                         "............\n" +
                         "........0...\n" +
                         "............\n" +
-                        "....0.......\n" +
+                        "#...0.......\n" +
                         ".#..........\n" +
                         "#.a.........\n" +
                         "...a........\n" +
                         "....#.......\n" +
-                        "............\n" +
-                        "............\n" +
-                        "............";
+                        ".....#......\n" +
+                        "......#.....\n" +
+                        ".......#....";
 
         final Point antinode1 = new Point(1, 5);
         final Point antinode2 = new Point(4, 8);
@@ -212,7 +212,7 @@ class DayEightTest {
             map.scanLine(line);
         }
         List<Point> antinodes = map.getAllAntinodes();
-        assertEquals(3, antinodes.size());
+        assertEquals(11, antinodes.size());
         assertTrue(antinodes.contains(antinode1));
         assertTrue(antinodes.contains(antinode2));
         assertTrue(antinodes.contains(antinode3));
@@ -240,7 +240,32 @@ class DayEightTest {
             map.scanLine(line);
         }
         List<Point> antinodes = map.getAllAntinodes();
-        assertEquals(14, antinodes.size());
+        assertEquals(34, antinodes.size());
+    }
+
+    @Test
+    void getAntinodesComplete() {
+        String asciiMap =
+                        "##....#....#\n" +
+                        ".#.#....0...\n" +
+                        "..#.#0....#.\n" +
+                        "..##...0....\n" +
+                        "....0....#..\n" +
+                        ".#...#A....#\n" +
+                        "...#..#.....\n" +
+                        "#....#.#....\n" +
+                        "..#.....A...\n" +
+                        "....#....A..\n" +
+                        ".#........#.\n" +
+                        "...#......##";
+
+        String[] lines = asciiMap.split("\n");
+        AntennaMap map = new AntennaMap();
+        for (String line : lines) {
+            map.scanLine(line);
+        }
+        List<Point> antinodes = map.getAllAntinodes();
+        assertEquals(34, antinodes.size());
     }
 
 

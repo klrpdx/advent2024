@@ -50,33 +50,42 @@ public class AntennaMap {
         return pairs;
     }
 
-    private boolean onMap(Point point) {
-        return point.x >= 0 && point.x < rows.size() && point.y >= 0 && point.y < rows.size();
+    private boolean onMap(int x, int y) {
+        return x >= 0 && x < rows.size() && y >= 0 && y < rows.size();
     }
 
 
-    private Point[] findAntinodes(Point[] pair) {
+    private Set<Point> findAntinodes(Point[] pair) {
         Point p1 = pair[0];
         Point p2 = pair[1];
-        int x = p1.x - p2.x;
-        int y = p1.y - p2.y;
-        Point[] antinodes = new Point[2];
-        antinodes[0] = new Point(p1.x+x, p1.y+y);
-        antinodes[1] = new Point(p2.x-x, p2.y-y);
+        int xChange = p1.x - p2.x;
+        int yChange = p1.y - p2.y;
+        Set<Point> antinodes = new HashSet<>();
+        antinodes.add(p1);
+        antinodes.add(p2);
+        int newX = p1.x + xChange;
+        int newY = p1.y + yChange;
+        while (onMap(newX, newY)) {
+            antinodes.add(new Point(newX, newY));
+            newX += xChange;
+            newY += yChange;
+        }
+        newX = p1.x - xChange;
+        newY = p1.y - yChange;
+        while (onMap(newX, newY)) {
+            antinodes.add(new Point(newX, newY));
+            newX -= xChange;
+            newY -= yChange;
+        }
         return antinodes;
     }
 
     public List<Point> getAllAntinodes() {
+        Set<Point> antinodes = new HashSet<>();
         for (String freq : uniqueFrequencies) {
             List<Point[]> pairs = getPairs(freq);
             for (Point[] pair : pairs) {
-                Point[] antinode = findAntinodes(pair);
-                if (onMap(antinode[0])) {
-                    antinodes.add(antinode[0]);
-                }
-                if (onMap(antinode[1])) {
-                    antinodes.add(antinode[1]);
-                }
+                antinodes.addAll(findAntinodes(pair));
             }
         }
         return new ArrayList<>(antinodes);
