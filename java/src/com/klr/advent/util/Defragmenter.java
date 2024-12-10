@@ -1,15 +1,13 @@
 package com.klr.advent.util;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Defragmenter {
 
     private final String diskMap;
     private final List<Integer> fileblocks = new ArrayList<Integer>();
     private final List<Integer> freeblocks = new ArrayList<Integer>();
+    private final Map<String, Integer> indexMap = new HashMap<String, Integer>();
     private int totalBlocks;
 
     public Defragmenter(String input) {
@@ -19,8 +17,43 @@ public class Defragmenter {
 
     public Integer[] defragment() {
         processMap();
-        Integer[] fragmented = getArray();
+        Integer[] fragmented = getFragmentedArray();
         return fillFree(fragmented);
+    }
+
+    public Integer[] fileDefragment() {
+        processMap();
+        Integer[] fragmented = getFragmentedArray();
+        System.out.println(Arrays.toString(fragmented));
+        return fillFreeWithWholeFiles(fragmented);
+    }
+
+    private Integer[] fillFreeWithWholeFiles(Integer[] fragmented) {
+        for (int fileIndex = fileblocks.size() - 1; fileIndex >= 0; fileIndex--) {
+            int fileSize = fileblocks.get(fileIndex);
+            for (int freeIndex=0; freeIndex < fileIndex; freeIndex++) {
+                int freeSize = freeblocks.get(freeIndex);
+                if (freeSize >= fileSize) {
+                    moveFile(fileIndex, freeIndex, fragmented);
+                    break;
+                }
+            }
+        }
+        return fragmented;
+    }
+
+    private void moveFile(Integer fileIndex, Integer freeIndex, Integer[] array) {
+        int freeStartIndex = indexMap.get(freeIndex+"Free");
+        int fileStartIndex = indexMap.get(fileIndex+"File");
+        int fileSize = fileblocks.get(fileIndex);
+        int freeSize = freeblocks.get(freeIndex);
+
+        for (int i=0; i<fileSize; i++) {
+            array[freeStartIndex+i] = array[fileStartIndex+i];
+            array[fileStartIndex+i] = -1;
+        }
+        freeblocks.add(freeIndex,freeSize-fileSize);
+        indexMap.put(freeIndex+"Free", freeStartIndex+fileSize);
     }
 
     private Integer[] fillFree(Integer[] fragmented) {
@@ -47,11 +80,15 @@ public class Defragmenter {
             int size = Integer.parseInt(String.valueOf(chars[i]));
             totalBlocks += size;
             if (i % 2 == 0) {
-                fileblocks.add(size);
+                //if (size > 0) {
+                    fileblocks.add(size);
+                //}
             } else {
                 freeblocks.add(Integer.parseInt(String.valueOf(chars[i])));
             }
         }
+        //System.out.println("File blocks: " + fileblocks);
+        //System.out.println("Free blocks: " + freeblocks);
     }
 
     public long getChecksum(Integer[] array) {
@@ -72,21 +109,24 @@ public class Defragmenter {
         return freeblocks;
     }
 
-    public Integer[] getArray() {
+    public Integer[] getFragmentedArray() {
         Integer[] array = new Integer[totalBlocks];
         int index = 0;
         for (int fb = 0; fb < fileblocks.size(); fb++) {
+            indexMap.put(fb+"File",index);
             for (int j = 0; j < fileblocks.get(fb); j++) {
                 array[index] = fb;
                 index++;
             }
             if (fb < freeblocks.size()) {
+                indexMap.put(fb+"Free",index);
                 for (int j = 0; j < freeblocks.get(fb); j++) {
                     array[index] = -1;
                     index++;
                 }
             }
         }
+       //System.out.println("Fragmented: " + Arrays.toString(array));
         return array;
     }
 }
