@@ -136,7 +136,6 @@ public class Defragmenter {
                 }
             }
         }
-        System.out.println("Fragmented: " + Arrays.toString(array));
         return array;
     }
 }
