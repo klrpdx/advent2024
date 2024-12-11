@@ -24,7 +24,6 @@ public class Defragmenter {
     public Integer[] fileDefragment() {
         processMap();
         Integer[] fragmented = getFragmentedArray();
-        System.out.println(Arrays.toString(fragmented));
         return fillFreeWithWholeFiles(fragmented);
     }
 
@@ -52,7 +51,7 @@ public class Defragmenter {
             array[freeStartIndex+i] = array[fileStartIndex+i];
             array[fileStartIndex+i] = -1;
         }
-        freeblocks.add(freeIndex,freeSize-fileSize);
+        freeblocks.set(freeIndex,freeSize-fileSize);
         indexMap.put(freeIndex+"Free", freeStartIndex+fileSize);
     }
 
@@ -76,19 +75,30 @@ public class Defragmenter {
 
     private void processMap() {
         char[] chars = diskMap.toCharArray();
+        boolean zeroFile = false;
         for (int i = 0; i < chars.length; i++) {
             int size = Integer.parseInt(String.valueOf(chars[i]));
             totalBlocks += size;
             if (i % 2 == 0) {
-                //if (size > 0) {
+                if (size > 0) {
                     fileblocks.add(size);
-                //}
+                }
+                else {
+                    System.out.printf("Found a zero-sized file at index %d\n", i);
+                    zeroFile = true;
+                }
             } else {
-                freeblocks.add(Integer.parseInt(String.valueOf(chars[i])));
+                if (zeroFile) {
+                    int prevIndex = fileblocks.size() - 1;
+                    int prevFreeBlock = freeblocks.get(prevIndex);
+                    freeblocks.set(prevIndex, prevFreeBlock+size);
+                    zeroFile = false;
+                }
+                else {
+                    freeblocks.add(size);
+                }
             }
         }
-        //System.out.println("File blocks: " + fileblocks);
-        //System.out.println("Free blocks: " + freeblocks);
     }
 
     public long getChecksum(Integer[] array) {
@@ -126,7 +136,7 @@ public class Defragmenter {
                 }
             }
         }
-       //System.out.println("Fragmented: " + Arrays.toString(array));
+        System.out.println("Fragmented: " + Arrays.toString(array));
         return array;
     }
 }

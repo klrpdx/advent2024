@@ -155,21 +155,4 @@ class DayNineTest {
         int expected = 149706;
         assertEquals(expected, disk.getChecksum(defragmented));
     }
-
-    @Test
-    void checksum2() {
-
-        String index =     "0 . 1 . 2 . - . - . 3 . 4 . 5 . 6 . - . - . - . - . 7 . 8 . 9 . 10 . 11 .  12  ";
-        String inputviz =  "3 2 2 2 1 2 0 2 0 2 5 2 5 2 8 2 8 2 0 2 0 2 0 2 0 2 7 2 7 2 2 2 1  2 1  2  1";
-
-        String input =  "3222120202525282820202020272722212121";
-        Defragmenter disk = new Defragmenter(input);
-        Integer[] defragmented =  disk.fileDefragment();
-        System.out.println(Arrays.toString(disk.getFragmentedArray()));
-        int expected = 7705;
-        assertEquals(expected, disk.getChecksum(defragmented));
-    }
-
-
-
 }
