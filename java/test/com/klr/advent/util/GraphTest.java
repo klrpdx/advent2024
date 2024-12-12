@@ -12,15 +12,15 @@ class GraphTest {
 
     @Test
     void addVertex() {
-        List<Vertex> expected = new ArrayList<>();
-        Vertex v0 = new Vertex(0,0);
-        Vertex v1 = new Vertex(1,0);
-        Vertex v2 = new Vertex(2,0);
+        List<TrailVertex> expected = new ArrayList<>();
+        TrailVertex v0 = new TrailVertex(0,0);
+        TrailVertex v1 = new TrailVertex(1,0);
+        TrailVertex v2 = new TrailVertex(2,0);
         expected.add(v0);
         expected.add(v1);
         expected.add(v2);
 
-        Graph graph = new Graph();
+        TrailGraph graph = new TrailGraph();
         graph.addVertex(v0);
         graph.addVertex(v1);
         graph.addVertex(v2);
@@ -31,17 +31,17 @@ class GraphTest {
     @Test
     void edges() {
 
-        Vertex v0 = new Vertex(0,0);
-        Vertex v1 = new Vertex(1,0);
-        Vertex v2 = new Vertex(2,0);
-        Vertex v3 = new Vertex(3,0);
-        Vertex v4 = new Vertex(4,0);
+        TrailVertex v0 = new TrailVertex(0,0);
+        TrailVertex v1 = new TrailVertex(1,0);
+        TrailVertex v2 = new TrailVertex(2,0);
+        TrailVertex v3 = new TrailVertex(3,0);
+        TrailVertex v4 = new TrailVertex(4,0);
 
-        List<Vertex> expected = new ArrayList<>();
+        List<TrailVertex> expected = new ArrayList<>();
         expected.add(v1);
         expected.add(v4);
 
-        Graph graph = new Graph();
+        TrailGraph graph = new TrailGraph();
         graph.addVertex(v0);
         graph.addVertex(v1);
         graph.addVertex(v2);
@@ -56,25 +56,25 @@ class GraphTest {
 
     @Test
     void followEdge() {
-        Vertex v0 = new Vertex(0,0);
-        Vertex v1 = new Vertex(1,1);
-        Vertex v2 = new Vertex(2,2);
-        Vertex v3 = new Vertex(3,3);
-        Vertex v4 = new Vertex(4,1);
-        Vertex v5 = new Vertex(5,2);
-        Vertex v6 = new Vertex(6,3);
-        Vertex v7 = new Vertex(7,4);
-        Vertex v8 = new Vertex(8,8);
-        Vertex v9 = new Vertex(9,7);
-        Vertex v10 = new Vertex(10,6);
-        Vertex v11 = new Vertex(11,5);
-        Vertex v12 = new Vertex(12,9);
-        Vertex v13 = new Vertex(13,8);
-        Vertex v14 = new Vertex(14,7);
-        Vertex v15 = new Vertex(15,6);
+        TrailVertex v0 = new TrailVertex(0,0);
+        TrailVertex v1 = new TrailVertex(1,1);
+        TrailVertex v2 = new TrailVertex(2,2);
+        TrailVertex v3 = new TrailVertex(3,3);
+        TrailVertex v4 = new TrailVertex(4,1);
+        TrailVertex v5 = new TrailVertex(5,2);
+        TrailVertex v6 = new TrailVertex(6,3);
+        TrailVertex v7 = new TrailVertex(7,4);
+        TrailVertex v8 = new TrailVertex(8,8);
+        TrailVertex v9 = new TrailVertex(9,7);
+        TrailVertex v10 = new TrailVertex(10,6);
+        TrailVertex v11 = new TrailVertex(11,5);
+        TrailVertex v12 = new TrailVertex(12,9);
+        TrailVertex v13 = new TrailVertex(13,8);
+        TrailVertex v14 = new TrailVertex(14,7);
+        TrailVertex v15 = new TrailVertex(15,6);
 
 
-        Graph graph = new Graph();
+        TrailGraph graph = new TrailGraph();
         graph.addVertex(v0);
         graph.addVertex(v1);
         graph.addVertex(v2);

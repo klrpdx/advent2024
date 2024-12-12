@@ -5,43 +5,33 @@ import java.util.Objects;
 
 public class Vertex {
 
-    private final int level;
-    private final int id;
-    private Point location;
+    private final String label;
+    private final Point location;
 
-    public Vertex(int id, int level) {
-        this.id = id;
-        this.level = level;
-    }
-
-    public Vertex(int id, int level, Point location) {
-        this.id = id;
-        this.level = level;
+    public Vertex(Point location, String label) {
         this.location = location;
+        this.label = label;
     }
 
-    public Point getLocation()  {
+    public Point getLocation() {
         return location;
     }
 
-    public int getLevel() {
-        return level;
-    }
-
-    public int getId() {
-        return id;
+    public String getLabel() {
+        return label;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Vertex vertex = (Vertex) o;
-        return id == vertex.id;
+        if (!(o instanceof Vertex vertex)) return false;
+        return Objects.equals(label, vertex.label) && Objects.equals(location, vertex.location);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hash(label, location);
     }
 }
+
+

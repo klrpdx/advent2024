@@ -1,9 +1,9 @@
 package com.klr.advent;
 
 import com.klr.advent.util.FileLoader;
-import com.klr.advent.util.Graph;
+import com.klr.advent.util.TrailGraph;
 import com.klr.advent.util.TopoMap;
-import com.klr.advent.util.Vertex;
+import com.klr.advent.util.TrailVertex;
 
 import java.io.IOException;
 import java.util.Set;
@@ -29,10 +29,10 @@ public class DayTen {
 
     public long solve() throws IOException {
         TopoMap map = parseFile();
-        Graph graph = map.createGraph();
-        Set<Vertex> trailheads = map.getTrailheads();
+        TrailGraph graph = map.createGraph();
+        Set<TrailVertex> trailheads = map.getTrailheads();
         int score = 0;
-        for (Vertex trailhead : trailheads) {
+        for (TrailVertex trailhead : trailheads) {
             score += graph.findUniquePathTo(trailhead,9).size();
         }
         return score;
@@ -40,10 +40,10 @@ public class DayTen {
 
     public long solve2() throws IOException {
         TopoMap map = parseFile();
-        Graph graph = map.createGraph();
-        Set<Vertex> trailheads = map.getTrailheads();
+        TrailGraph graph = map.createGraph();
+        Set<TrailVertex> trailheads = map.getTrailheads();
         int score = 0;
-        for (Vertex trailhead : trailheads) {
+        for (TrailVertex trailhead : trailheads) {
             score += graph.findAllPathsTo(trailhead,9).size();
         }
         return score;

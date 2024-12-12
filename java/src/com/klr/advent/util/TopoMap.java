@@ -7,8 +7,8 @@ public class TopoMap {
 
     private final String asciMap;
     private int[][] topoArray;
-    private Set<Vertex> trailheads = new HashSet<>();
-    private Map<Point, Vertex> points = new HashMap<>();
+    private Set<TrailVertex> trailheads = new HashSet<>();
+    private Map<Point, TrailVertex> points = new HashMap<>();
 
     public TopoMap(String asciFile) {
         asciMap = asciFile;
@@ -35,18 +35,18 @@ public class TopoMap {
     }
 
 
-    public Graph createGraph() {
+    public TrailGraph createGraph() {
         if (topoArray == null) {
             createArray();
         }
 
-        Graph graph = new Graph();
+        TrailGraph graph = new TrailGraph();
         int id = 0;
 
         for (int y = 0; y < topoArray.length; y++) {
             for (int x = 0; x < topoArray[y].length; x++) {
                 int level = topoArray[y][x];
-                Vertex v = new Vertex(id, level, new Point(x, y));
+                TrailVertex v = new TrailVertex(id, level, new Point(x, y));
                 graph.addVertex(v);
                 if (level == 0) {
                     trailheads.add(v);
@@ -56,12 +56,12 @@ public class TopoMap {
             }
         }
 
-        for (Vertex v : graph.getAllVertices()) {
+        for (TrailVertex v : graph.getAllVertices()) {
             Point myPoint = v.getLocation();
             for (int y = myPoint.y - 1; y <= myPoint.y + 1; y++) {
                 if (y >= 0 && y < topoArray.length) {
                     Point neighbor = new Point(myPoint.x, y);
-                    Vertex vNeighbor = points.get(neighbor);
+                    TrailVertex vNeighbor = points.get(neighbor);
                     if (vNeighbor.getLevel() == (v.getLevel()+1)) {
                         graph.addEdge(v, vNeighbor);
                     }
@@ -70,7 +70,7 @@ public class TopoMap {
             for (int x = myPoint.x - 1; x <= myPoint.x + 1; x++) {
                 if (x >= 0 && x < topoArray[0].length) {
                     Point neighbor = new Point(x, myPoint.y);
-                    Vertex vNeighbor = points.get(neighbor);
+                    TrailVertex vNeighbor = points.get(neighbor);
                     if (vNeighbor.getLevel() == (v.getLevel()+1)) {
                         graph.addEdge(v, vNeighbor);
                     }
@@ -81,7 +81,7 @@ public class TopoMap {
         return graph;
     }
 
-    public Set<Vertex> getTrailheads() {
+    public Set<TrailVertex> getTrailheads() {
         return trailheads;
     }
 

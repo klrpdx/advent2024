@@ -1,9 +1,9 @@
 package com.klr.advent;
 
 import com.klr.advent.util.FileLoader;
-import com.klr.advent.util.Graph;
+import com.klr.advent.util.TrailGraph;
 import com.klr.advent.util.TopoMap;
-import com.klr.advent.util.Vertex;
+import com.klr.advent.util.TrailVertex;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -47,14 +47,14 @@ class DayTenTest {
                 "8765\n" +
                 "9876";
 
-        Vertex v0 = new Vertex(0,0);
-        Vertex v1 = new Vertex(1,1);
-        Vertex v2 = new Vertex(4,1);
-        List<Vertex> expected = Arrays.asList(v1,v2);
+        TrailVertex v0 = new TrailVertex(0,0);
+        TrailVertex v1 = new TrailVertex(1,1);
+        TrailVertex v2 = new TrailVertex(4,1);
+        List<TrailVertex> expected = Arrays.asList(v1,v2);
 
         TopoMap map = new TopoMap(ascii);
-        Graph graph = map.createGraph();
-        List<Vertex> actual = graph.getEdges(v0 );
+        TrailGraph graph = map.createGraph();
+        List<TrailVertex> actual = graph.getEdges(v0 );
         assertTrue(actual.containsAll(expected));
     }
 
@@ -66,13 +66,13 @@ class DayTenTest {
                         "8765\n" +
                         "9876";
 
-        Vertex v0 = new Vertex(8,8);
-        Vertex v1 = new Vertex(12,9);
-        List<Vertex> expected = List.of(v1);
+        TrailVertex v0 = new TrailVertex(8,8);
+        TrailVertex v1 = new TrailVertex(12,9);
+        List<TrailVertex> expected = List.of(v1);
 
         TopoMap map = new TopoMap(ascii);
-        Graph graph = map.createGraph();
-        List<Vertex> actual = graph.getEdges(v0 );
+        TrailGraph graph = map.createGraph();
+        List<TrailVertex> actual = graph.getEdges(v0 );
         assertTrue(actual.containsAll(expected));
     }
 
@@ -84,8 +84,8 @@ class DayTenTest {
                         "8765\n" +
                         "9876";
         TopoMap map = new TopoMap(ascii);
-        Graph graph = map.createGraph();
-        Vertex v0 = new Vertex(0, 0);
+        TrailGraph graph = map.createGraph();
+        TrailVertex v0 = new TrailVertex(0, 0);
 
         assertEquals(1, graph.findUniquePathTo(v0, 9).size());
     }
@@ -102,10 +102,10 @@ class DayTenTest {
                         "9222229";
 
         TopoMap map = new TopoMap(ascii);
-        Graph graph = map.createGraph();
-        Set<Vertex> trailheads = map.getTrailheads();
+        TrailGraph graph = map.createGraph();
+        Set<TrailVertex> trailheads = map.getTrailheads();
         int score = 0;
-        for (Vertex v : trailheads) {
+        for (TrailVertex v : trailheads) {
             score += graph.findUniquePathTo(v, 9).size();
         }
 
@@ -125,10 +125,10 @@ class DayTenTest {
                         "10456732";
 
         TopoMap map = new TopoMap(ascii);
-        Graph graph = map.createGraph();
-        Set<Vertex> trailheads = map.getTrailheads();
+        TrailGraph graph = map.createGraph();
+        Set<TrailVertex> trailheads = map.getTrailheads();
         int score = 0;
-        for (Vertex v : trailheads) {
+        for (TrailVertex v : trailheads) {
             score += graph.findUniquePathTo(v, 9).size();
         }
 
@@ -147,10 +147,10 @@ class DayTenTest {
                         "9222229";
 
         TopoMap map = new TopoMap(ascii);
-        Graph graph = map.createGraph();
-        Set<Vertex> trailheads = map.getTrailheads();
+        TrailGraph graph = map.createGraph();
+        Set<TrailVertex> trailheads = map.getTrailheads();
         int score = 0;
-        for (Vertex v : trailheads) {
+        for (TrailVertex v : trailheads) {
             score += graph.findAllPathsTo(v, 9).size();
         }
 
@@ -170,10 +170,10 @@ class DayTenTest {
                         "10456732";
 
         TopoMap map = new TopoMap(ascii);
-        Graph graph = map.createGraph();
-        Set<Vertex> trailheads = map.getTrailheads();
+        TrailGraph graph = map.createGraph();
+        Set<TrailVertex> trailheads = map.getTrailheads();
         int score = 0;
-        for (Vertex v : trailheads) {
+        for (TrailVertex v : trailheads) {
             score += graph.findAllPathsTo(v, 9).size();
         }
 

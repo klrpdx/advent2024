@@ -1,18 +1,19 @@
 package com.klr.advent.util;
 
+
+import java.awt.Point;
 import java.util.*;
 
 public class Graph {
 
     private final Map<Vertex, List<Vertex>> vertices = new HashMap<>();
+    private final Map<Point, Vertex> locations = new HashMap<>();
 
 
-    public List<Vertex> getVertex(int i) {
-        return vertices.get(i);
-    }
 
     public void addVertex(Vertex vertex) {
         vertices.put(vertex, new ArrayList<>());
+        locations.put(vertex.getLocation(), vertex);
     }
 
     public List<Vertex> getAllVertices() {
@@ -35,11 +36,11 @@ public class Graph {
         List<Vertex> ends = new ArrayList<>();
         List<Vertex> vertices = getEdges(from);
         for (Vertex v : vertices) {
-            if (v.getLevel() == level) {
-                ends.add(v);
-            } else {
-                ends.addAll(findAllPathsTo(v, level));
-            }
+            //if (v.getLevel() == level) {
+            //    ends.add(v);
+            //} else {
+              //  ends.addAll(findAllPathsTo(v, level));
+           // }
         }
         return ends;
     }
