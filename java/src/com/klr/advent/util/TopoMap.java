@@ -7,7 +7,7 @@ public class TopoMap {
 
     private final String asciMap;
     private int[][] topoArray;
-    private Set<Point> trailheads = new HashSet<>();
+    private Set<Vertex> trailheads = new HashSet<>();
     private Map<Point, Vertex> points = new HashMap<>();
 
     public TopoMap(String asciFile) {
@@ -48,6 +48,9 @@ public class TopoMap {
                 int level = topoArray[y][x];
                 Vertex v = new Vertex(id, level, new Point(x, y));
                 graph.addVertex(v);
+                if (level == 0) {
+                    trailheads.add(v);
+                }
                 points.put(v.getLocation(), v);
                 id++;
             }
@@ -78,12 +81,8 @@ public class TopoMap {
         return graph;
     }
 
-    private Vertex getRight(Vertex v) {
-
-        return null;
+    public Set<Vertex> getTrailheads() {
+        return trailheads;
     }
 
-    public Vertex getPoint(Point point) {
-        return points.get(point);
-    }
 }

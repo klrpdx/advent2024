@@ -36,7 +36,7 @@ public class Graph {
                 ends.add(v);
             }
             else {
-                ends = findPathTo(v, level);
+                ends.addAll(findPathTo(v, level));
             }
         }
         return ends;

@@ -1,9 +1,12 @@
 package com.klr.advent;
 
 import com.klr.advent.util.FileLoader;
+import com.klr.advent.util.Graph;
 import com.klr.advent.util.TopoMap;
+import com.klr.advent.util.Vertex;
 
 import java.io.IOException;
+import java.util.Set;
 
 public class DayTen {
 
@@ -14,21 +17,32 @@ public class DayTen {
     }
 
 
-    public int[][] parseFile() throws IOException {
+    public TopoMap parseFile() throws IOException {
         StringBuilder asciiMap = new StringBuilder();
         String nextLine = null;
         while ((nextLine = fileLoader.readLine()) != null) {
             asciiMap.append(nextLine).append("\n");
         }
         TopoMap map = new TopoMap(asciiMap.toString());
-        return map.createArray();
+        return map;
     }
 
-    public long solve() {
-
-        return 0;
+    public long solve() throws IOException {
+        TopoMap map = parseFile();
+        Graph graph = map.createGraph();
+        Set<Vertex> trailheads = map.getTrailheads();
+        int score = 0;
+        for (Vertex trailhead : trailheads) {
+            score += graph.findPathTo(trailhead,9).size();
+        }
+        return score;
     }
 
 
+    public static void main(String[] args) throws IOException {
+        FileLoader fileLoader = new FileLoader("/Users/klr/Projects/advent2024/resources/day10input.txt");
+        DayTen solver = new DayTen(fileLoader);
+        System.out.println("The solution part 1: " + solver.solve());
+    }
 
 }

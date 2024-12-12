@@ -90,4 +90,63 @@ class DayTenTest {
         List<Vertex> actual = graph.getEdges(v0 );
         assertTrue(actual.containsAll(expected));
     }
+
+    @Test
+    void getPaths() {
+        String ascii =
+                "0123\n" +
+                        "1234\n" +
+                        "8765\n" +
+                        "9876";
+        TopoMap map = new TopoMap(ascii);
+        Graph graph = map.createGraph();
+        Vertex v0 = new Vertex(0, 0);
+
+        assertEquals(1, graph.findPathTo(v0, 9).size());
+    }
+
+    @Test
+    void getScore() {
+        String ascii =
+                "5550555\n" +
+                        "5551555\n" +
+                        "7772778\n" +
+                        "6543456\n" +
+                        "7222227\n" +
+                        "8222228\n" +
+                        "9222229";
+
+        TopoMap map = new TopoMap(ascii);
+        Graph graph = map.createGraph();
+        Set<Vertex> trailheads = map.getTrailheads();
+        int score = 0;
+        for (Vertex v : trailheads) {
+            score += graph.findPathTo(v, 9).size();
+        }
+
+        assertEquals(2, score);
+    }
+
+    @Test
+    void getScoreComplex() {
+        String ascii =
+                "89010123\n" +
+                        "78121874\n" +
+                        "87430965\n" +
+                        "96549874\n" +
+                        "45678903\n" +
+                        "32019012\n" +
+                        "01329801\n" +
+                        "10456732";
+
+        TopoMap map = new TopoMap(ascii);
+        Graph graph = map.createGraph();
+        Set<Vertex> trailheads = map.getTrailheads();
+        int score = 0;
+        for (Vertex v : trailheads) {
+            score += graph.findPathTo(v, 9).size();
+        }
+
+        assertEquals(36, score);
+    }
 }
