@@ -33,7 +33,18 @@ public class DayTen {
         Set<Vertex> trailheads = map.getTrailheads();
         int score = 0;
         for (Vertex trailhead : trailheads) {
-            score += graph.findPathTo(trailhead,9).size();
+            score += graph.findUniquePathTo(trailhead,9).size();
+        }
+        return score;
+    }
+
+    public long solve2() throws IOException {
+        TopoMap map = parseFile();
+        Graph graph = map.createGraph();
+        Set<Vertex> trailheads = map.getTrailheads();
+        int score = 0;
+        for (Vertex trailhead : trailheads) {
+            score += graph.findAllPathsTo(trailhead,9).size();
         }
         return score;
     }
@@ -42,7 +53,7 @@ public class DayTen {
     public static void main(String[] args) throws IOException {
         FileLoader fileLoader = new FileLoader("/Users/klr/Projects/advent2024/resources/day10input.txt");
         DayTen solver = new DayTen(fileLoader);
-        System.out.println("The solution part 1: " + solver.solve());
+        System.out.println("The solution part 2: " + solver.solve2());
     }
 
 }

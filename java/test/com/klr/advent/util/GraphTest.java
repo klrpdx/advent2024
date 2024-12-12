@@ -115,7 +115,7 @@ class GraphTest {
         graph.addEdge(v15,v14);
 
 
-        int numPaths = graph.findPathTo(v0,9).size();
+        int numPaths = graph.findUniquePathTo(v0,9).size();
         assertEquals(1, numPaths);
 
     }

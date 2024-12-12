@@ -4,8 +4,7 @@ import java.util.*;
 
 public class Graph {
 
-    private final Map<Vertex,List<Vertex>> vertices = new HashMap<>();
-
+    private final Map<Vertex, List<Vertex>> vertices = new HashMap<>();
 
 
     public List<Vertex> getVertex(int i) {
@@ -28,15 +27,18 @@ public class Graph {
         return vertices.get(v);
     }
 
-    public Set<Vertex> findPathTo(Vertex from, int level) {
-        Set<Vertex> ends = new HashSet<>();
+    public Set<Vertex> findUniquePathTo(Vertex from, int level) {
+        return new HashSet<>(findAllPathsTo(from, level));
+    }
+
+    public List<Vertex> findAllPathsTo(Vertex from, int level) {
+        List<Vertex> ends = new ArrayList<>();
         List<Vertex> vertices = getEdges(from);
         for (Vertex v : vertices) {
             if (v.getLevel() == level) {
                 ends.add(v);
-            }
-            else {
-                ends.addAll(findPathTo(v, level));
+            } else {
+                ends.addAll(findAllPathsTo(v, level));
             }
         }
         return ends;
