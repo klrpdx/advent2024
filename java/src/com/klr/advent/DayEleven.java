@@ -1,12 +1,11 @@
 package com.klr.advent;
 
 import com.klr.advent.util.FileLoader;
+import com.klr.advent.util.Path;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class DayEleven {
-
 
 
     private boolean rule1(long stone) {
@@ -18,63 +17,91 @@ public class DayEleven {
         return digits.length() % 2 == 0;
     }
 
-    public List<Long> applyRule1(long stone) {
-        List<Long> newStones = new ArrayList<>();
+    public long applyRule1(long stone) {
         if (stone == 0) {
-            newStones.add(1L);
+            return 1L;
         }
-        return newStones;
+        return stone;
     }
 
-    public List<Long> applyRule2(long stone) {
-        List<Long> newStones = new ArrayList<>();
+    public long[] applyRule2(long stone) {
         if (rule2(stone)) {
             String digits = String.valueOf(stone);
-            Long half = Long.valueOf(digits.substring(0, digits.length() / 2));
-            Long otherHalf = Long.valueOf(digits.substring(digits.length() / 2));
-            newStones.add(half);
-            newStones.add(otherHalf);
+            long half = Long.parseLong(digits.substring(0, digits.length() / 2));
+            long otherHalf = Long.parseLong(digits.substring(digits.length() / 2));
+            return new long[]{half, otherHalf};
         }
-        return newStones;
+        return null;
     }
 
-    public List<Long> applyRule3(long stone) {
-        List<Long> newStones = new ArrayList<>();
-        if (!rule1(stone) && !rule2(stone)) {
-            newStones.add(stone * 2024L);
-        }
-        return newStones;
-    }
-
-    public long solve() throws Exception {
-        return 0;
-    }
-
-    public List<Long> blink(List<Long> stones) {
-        List<Long> newStones = new ArrayList<>();
+    public LinkedList<Long> blinky(LinkedList<Long> stones) {
+        List<Long> splits = new ArrayList<>();
+        int index = 0;
         for (Long stone : stones) {
-            newStones.addAll(applyRule1(stone));
-            newStones.addAll(applyRule2(stone));
-            newStones.addAll(applyRule3(stone));
+            if (rule1(stone)) {
+                stones.set(index, applyRule1(stone));
+            } else if (rule2(stone)) {
+                long[] split = applyRule2(stone);
+                stones.set(index, split[0]);
+                splits.add(split[1]);
+            } else {
+                stones.set(index, 2024L * stone);
+            }
+            index++;
         }
-        return newStones;
+        stones.addAll(splits);
+        return stones;
     }
+
+    public long blinkyMap(List<Long> start, int blinks) {
+        Map<Long, Long> stones = new HashMap<>();
+        for (Long stone : start) {
+            stones.put(stone, 1L);
+        }
+
+        for (int i = 0; i < blinks; i++) {
+            Map<Long, Long> stonesNext = new HashMap<>();
+            System.out.println("Blink " + i);
+            Set<Long> keys = stones.keySet();
+            for (Long key : keys) {
+                long numberOfStones = stones.get(key);
+                if (key == 0L) {
+                    long prevAmount = stonesNext.get(1L) == null ? 0L : stonesNext.get(1L);
+                    stonesNext.put(1L, prevAmount+numberOfStones);
+                } else if (rule2(key)) {
+                    long[] newStones = applyRule2(key);
+                    long prevAmount1 = stonesNext.get(newStones[0]) == null ? 0L : stonesNext.get(newStones[0]);
+                    stonesNext.put(newStones[0], prevAmount1+numberOfStones);
+                    long prevAmount2 = stonesNext.get(newStones[1]) == null ? 0L : stonesNext.get(newStones[1]);
+                    stonesNext.put(newStones[1], prevAmount2+numberOfStones);
+                } else {
+                    long mult = key*2024L;
+                    long prevAmount = stonesNext.get(mult) == null ? 0L : stonesNext.get(mult);
+                    stonesNext.put(mult, prevAmount+numberOfStones);
+                }
+            }
+            stones.clear();
+            stones.putAll(stonesNext);
+        }
+
+        long totalStones = 0L;
+        for (Long stoneCount : stones.values()) {
+            totalStones += stoneCount;
+        }
+        return totalStones;
+    }
+
 
     public static void main(String[] args) throws Exception {
         DayEleven solution = new DayEleven();
         String input = "965842 9159 3372473 311 0 6 86213 48";
         String[] numbers = input.split(" ");
-        long count = 0L;
+        List<Long> stones = new ArrayList<>();
         for (String number : numbers) {
-            List<Long> stones = new ArrayList<>();
             stones.add(Long.parseLong(number));
-            for (int blink=0;blink<75;blink++) {
-                stones = solution.blink(stones);
-            }
-            count += stones.size();
         }
-
-        System.out.println("Solution part 2: " + count);
+        long stoneCount = solution.blinkyMap(stones, 75);
+        System.out.println("Solution part 2: " + stoneCount);
     }
 
 
