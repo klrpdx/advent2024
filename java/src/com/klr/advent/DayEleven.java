@@ -7,17 +7,7 @@ import java.util.List;
 
 public class DayEleven {
 
-    private final FileLoader fileLoader;
 
-    public DayEleven(FileLoader fileLoader) {
-        this.fileLoader = fileLoader;
-    }
-
-
-
-    public long solve() throws Exception {
-        return 0;
-    }
 
     private boolean rule1(long stone) {
         return stone == 0;
@@ -33,15 +23,11 @@ public class DayEleven {
         if (stone == 0) {
             newStones.add(1L);
         }
-        else {
-            newStones.add(stone);
-        }
         return newStones;
     }
 
     public List<Long> applyRule2(long stone) {
         List<Long> newStones = new ArrayList<>();
-
         if (rule2(stone)) {
             String digits = String.valueOf(stone);
             Long half = Long.valueOf(digits.substring(0, digits.length() / 2));
@@ -49,22 +35,47 @@ public class DayEleven {
             newStones.add(half);
             newStones.add(otherHalf);
         }
-        else {
-            newStones.add(stone);
-        }
-
         return newStones;
     }
 
     public List<Long> applyRule3(long stone) {
         List<Long> newStones = new ArrayList<>();
         if (!rule1(stone) && !rule2(stone)) {
-            newStones.add(stone*2024L);
+            newStones.add(stone * 2024L);
         }
-        else {
-            newStones.add(stone);
-        }
-
         return newStones;
     }
+
+    public long solve() throws Exception {
+        return 0;
+    }
+
+    public List<Long> blink(List<Long> stones) {
+        List<Long> newStones = new ArrayList<>();
+        for (Long stone : stones) {
+            newStones.addAll(applyRule1(stone));
+            newStones.addAll(applyRule2(stone));
+            newStones.addAll(applyRule3(stone));
+        }
+        return newStones;
+    }
+
+    public static void main(String[] args) throws Exception {
+        DayEleven solution = new DayEleven();
+        String input = "965842 9159 3372473 311 0 6 86213 48";
+        String[] numbers = input.split(" ");
+        long count = 0L;
+        for (String number : numbers) {
+            List<Long> stones = new ArrayList<>();
+            stones.add(Long.parseLong(number));
+            for (int blink=0;blink<75;blink++) {
+                stones = solution.blink(stones);
+            }
+            count += stones.size();
+        }
+
+        System.out.println("Solution part 2: " + count);
+    }
+
+
 }
