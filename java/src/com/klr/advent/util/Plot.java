@@ -30,7 +30,7 @@ public class Plot {
         long perimeter = 0;
 
         for (Vertex v : getVertices()) {
-            perimeter += 4 - v.getSiblingNeighbors();
+            perimeter += 4L - v.getSiblingNeighbors();
         }
         return perimeter;
     }
