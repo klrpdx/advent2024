@@ -52,8 +52,21 @@ public class Vertex {
                     siblings.addAll(vertex.getSiblings());
                 }
             }
+            if (siblings.isEmpty()) {
+                siblings.add(this);
+            }
         }
         return new ArrayList<>(siblings);
+    }
+
+    public int getSiblingNeighbors() {
+        int count = 0;
+        for (Vertex vertex : neighbours) {
+            if (vertex.label.equals(label)) {
+                count++;
+            }
+        }
+        return count;
     }
 }
 

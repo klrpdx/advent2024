@@ -1,9 +1,7 @@
 package com.klr.advent.util;
 
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 
 public class Plot {
 
@@ -13,6 +11,9 @@ public class Plot {
         this.aVertex = aVertex;
     }
 
+    public Vertex getVertex() {
+        return aVertex;
+    }
     public List<Vertex> getVertices() {
         return aVertex.getSiblings();
     }
@@ -21,4 +22,16 @@ public class Plot {
         return aVertex.getSiblings().contains(v);
     }
 
+    public long getArea() {
+        return aVertex.getSiblings().size();
+    }
+
+    public long getPerimeter() {
+        long perimeter = 0;
+
+        for (Vertex v : getVertices()) {
+            perimeter += 4 - v.getSiblingNeighbors();
+        }
+        return perimeter;
+    }
 }

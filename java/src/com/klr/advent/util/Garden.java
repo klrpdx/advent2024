@@ -80,4 +80,14 @@ public class Garden {
         }
         return new ArrayList<>(plots);
     }
+
+    public long getFencePrice() {
+        getGardenGraph();
+        List<Plot> plots = getPlots();
+        long price = 0;
+        for (Plot plot : plots) {
+            price += plot.getArea() * plot.getPerimeter();
+        }
+        return price;
+    }
 }
