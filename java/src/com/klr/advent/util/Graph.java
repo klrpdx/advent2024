@@ -32,6 +32,10 @@ public class Graph {
         return new HashSet<>(findAllPathsTo(from, level));
     }
 
+    public Vertex getLocation(Point point) {
+        return locations.get(point);
+    }
+
     public List<Vertex> findAllPathsTo(Vertex from, int level) {
         List<Vertex> ends = new ArrayList<>();
         List<Vertex> vertices = getEdges(from);
@@ -44,5 +48,4 @@ public class Graph {
         }
         return ends;
     }
-
 }

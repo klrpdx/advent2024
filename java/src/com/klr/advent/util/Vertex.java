@@ -1,16 +1,22 @@
 package com.klr.advent.util;
 
-import java.awt.*;
-import java.util.Objects;
+import java.awt.Point;
+import java.util.*;
 
 public class Vertex {
 
     private final String label;
     private final Point location;
+    private final List<Vertex> neighbours = new ArrayList<>();
+    private Set<Vertex> siblings;
 
     public Vertex(Point location, String label) {
         this.location = location;
         this.label = label;
+    }
+
+    public void addEdge(Vertex vertex) {
+        neighbours.add(vertex);
     }
 
     public Point getLocation() {
@@ -31,6 +37,23 @@ public class Vertex {
     @Override
     public int hashCode() {
         return Objects.hash(label, location);
+    }
+
+    public List<Vertex> getConnections() {
+        return new ArrayList<>(neighbours);
+    }
+
+    public List<Vertex> getSiblings() {
+        if (siblings == null) {
+            siblings = new HashSet<>();
+            for (Vertex vertex : neighbours) {
+                if (vertex.label.equals(label)) {
+                    siblings.add(vertex);
+                    siblings.addAll(vertex.getSiblings());
+                }
+            }
+        }
+        return new ArrayList<>(siblings);
     }
 }
 
