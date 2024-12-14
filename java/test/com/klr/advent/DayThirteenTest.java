@@ -41,7 +41,7 @@ class DayThirteenTest {
 
         PrizeReader prizeReader = new PrizeReader(text);
         List<ClawMachine> machines = prizeReader.getMachines();
-        DayThirteen dayThirteen = new DayThirteen();
+        DayThirteen dayThirteen = new DayThirteen(null);
 
         assertEquals(280, dayThirteen.price(machines.getFirst()));
     }
@@ -55,7 +55,7 @@ class DayThirteenTest {
 
         PrizeReader prizeReader = new PrizeReader(text);
         List<ClawMachine> machines = prizeReader.getMachines();
-        DayThirteen dayThirteen = new DayThirteen();
+        DayThirteen dayThirteen = new DayThirteen(null);
 
         ClawMachine machine = machines.getFirst();
         assertEquals(0, dayThirteen.price(machines.getFirst()));
@@ -70,7 +70,7 @@ class DayThirteenTest {
 
         PrizeReader prizeReader = new PrizeReader(text);
         List<ClawMachine> machines = prizeReader.getMachines();
-        DayThirteen dayThirteen = new DayThirteen();
+        DayThirteen dayThirteen = new DayThirteen(null);
 
         assertEquals(200, dayThirteen.price(machines.getFirst()));
     }
