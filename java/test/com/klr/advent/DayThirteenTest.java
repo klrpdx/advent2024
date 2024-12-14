@@ -24,12 +24,12 @@ class DayThirteenTest {
         assertEquals(1, machines.size());
 
         ClawMachine machine = machines.getFirst();
-        assertEquals(94, machine.buttonA().x);
-        assertEquals(34, machine.buttonA().y);
-        assertEquals(22, machine.buttonB().x);
-        assertEquals(67, machine.buttonB().y);
-        assertEquals(8400, machine.prize().x);
-        assertEquals(5400, machine.prize().y);
+        assertEquals(94, machine.buttonA().x());
+        assertEquals(34, machine.buttonA().y());
+        assertEquals(22, machine.buttonB().x());
+        assertEquals(67, machine.buttonB().y());
+        assertEquals(8400, machine.prize().x());
+        assertEquals(5400, machine.prize().y());
     }
 
     @Test
@@ -73,6 +73,20 @@ class DayThirteenTest {
         DayThirteen dayThirteen = new DayThirteen(null);
 
         assertEquals(200, dayThirteen.price(machines.getFirst()));
+    }
+
+    @Test
+    void priceLargeNumbers() {
+        String text = "Button A: X+26, Y+66\n" +
+                "Button B: X+67, Y+21\n" +
+                "Prize: X=12748, Y=12176" +
+                " ";
+
+        PrizeReader prizeReader = new PrizeReader(text);
+        List<ClawMachine> machines = prizeReader.getMachines(true);
+        DayThirteen dayThirteen = new DayThirteen(null);
+
+        assertEquals(459236326669L, dayThirteen.price(machines.getFirst()));
     }
 
 }
