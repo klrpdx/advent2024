@@ -89,4 +89,14 @@ public class Garden {
         }
         return price;
     }
+
+    public long getDiscountedFencePrice() {
+        getGardenGraph();
+        List<Plot> plots = getPlots();
+        long price = 0;
+        for (Plot plot : plots) {
+            price += plot.getArea() * plot.getNumSides();
+        }
+        return price;
+    }
 }

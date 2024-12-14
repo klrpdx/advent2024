@@ -29,10 +29,16 @@ public class DayTwelve {
         return garden.getFencePrice();
     }
 
+    public long solvePart2() throws IOException {
+        loadAsciiMap();
+        Garden garden = new Garden(asciiMap);
+        return garden.getDiscountedFencePrice();
+    }
+
     public static void main(String[] args) throws IOException {
         FileLoader fileLoader = new FileLoader("/Users/klr/Projects/advent2024/resources/day12input.txt");
         DayTwelve dayTwelve = new DayTwelve(fileLoader);
-        System.out.println("Part I solution: "+dayTwelve.solvePart1());
+        System.out.println("Part II solution: "+dayTwelve.solvePart2());
     }
 
 

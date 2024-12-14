@@ -369,4 +369,37 @@ class DayTwelveTest {
         }
     }
 
+    @Test
+    void priceDiscounted() {
+        final String ascii =
+                "AAAA\n" +
+                        "BBCD\n" +
+                        "BBCC\n" +
+                        "EEEC";
+
+
+        Garden garden = new Garden(ascii);
+        long price = garden.getDiscountedFencePrice();
+        assertEquals(80, price);
+    }
+
+    @Test
+    void discountedPriceLargeGarden() {
+        final String ascii =
+                "RRRRIICCFF\n" +
+                        "RRRRIICCCF\n" +
+                        "VVRRRCCFFF\n" +
+                        "VVRCCCJFFF\n" +
+                        "VVVVCJJCFE\n" +
+                        "VVIVCCJJEE\n" +
+                        "VVIIICJJEE\n" +
+                        "MIIIIIJJEE\n" +
+                        "MIIISIJEEE\n" +
+                        "MMMISSJEEE";
+
+        Garden garden = new Garden(ascii);
+        long price = garden.getDiscountedFencePrice();
+        assertEquals(1206, price);
+    }
+
 }
