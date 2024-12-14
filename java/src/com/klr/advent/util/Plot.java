@@ -34,4 +34,12 @@ public class Plot {
         }
         return perimeter;
     }
+
+    public int getNumSides() {
+        int sides = 0;
+        for (Vertex v : getVertices()) {
+            sides += v.numCorners();
+        }
+        return sides;
+    }
 }

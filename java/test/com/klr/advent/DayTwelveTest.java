@@ -276,4 +276,97 @@ class DayTwelveTest {
         assertFalse(vertices.contains(b));
         assertTrue(vertices.contains(new Vertex(c1, "B")));
     }
+
+    @Test
+    void findMoreCousins() {
+        final String ascii =
+                "AAAA\n" +
+                "BBCD\n" +
+                "BBCC\n" +
+                "EEEC";
+
+
+        Garden plot = new Garden(ascii);
+        Graph graph = plot.getGardenGraph();
+        Vertex c = graph.getLocation(new Point(3, 2));
+        List<Vertex> vertices = c.getCousins();
+        Point cousin = new Point(2, 1);
+        assertEquals(1, vertices.size());
+        assertTrue(vertices.contains(new Vertex(cousin, "C")));
+    }
+
+    @Test
+    void getCorners() {
+        final String ascii =
+                "AAAA\n" +
+                "BBCD\n" +
+                "BBCC\n" +
+                "EEEC";
+
+        Garden plot = new Garden(ascii);
+        Graph graph = plot.getGardenGraph();
+        Vertex aEnd = graph.getLocation(new Point(0, 0));
+        Vertex aMiddle = graph.getLocation(new Point(1, 0));
+
+        assertEquals(2, aEnd.numCorners());
+        assertEquals(0, aMiddle.numCorners());
+    }
+
+    @Test
+    void getCornersSquare() {
+        final String ascii =
+                "AAAA\n" +
+                "BBCD\n" +
+                "BBCC\n" +
+                "EEEC";
+
+        Garden plot = new Garden(ascii);
+        Graph graph = plot.getGardenGraph();
+        Vertex B = graph.getLocation(new Point(1, 2));
+
+        assertEquals(1, B.numCorners());
+    }
+
+    @Test
+    void getCornersOffset() {
+        final String ascii =
+                        "AAAA\n" +
+                        "BBCD\n" +
+                        "BBCC\n" +
+                        "EEEC";
+
+        Garden plot = new Garden(ascii);
+        Graph graph = plot.getGardenGraph();
+        Vertex C = graph.getLocation(new Point(2, 2));
+
+        assertEquals(2, C.numCorners());
+    }
+
+    @Test
+    void plotNumSides() {
+        final String ascii =
+                        "AAAA\n" +
+                        "BBCD\n" +
+                        "BBCC\n" +
+                        "EEEC";
+
+
+        Map<String, Long> expected = new HashMap<>();
+        expected.put("A", 4L);
+        expected.put("B", 4L);
+        expected.put("C", 8L);
+        expected.put("D", 4L);
+        expected.put("E", 4L);
+
+        Garden garden = new Garden(ascii);
+        garden.getGardenGraph();
+        List<Plot> plots = garden.getPlots();
+        assertEquals(5, plots.size());
+
+        for (Plot plot : plots) {
+            Vertex v = plot.getVertex();
+            assertEquals(expected.get(v.getLabel()), plot.getNumSides());
+        }
+    }
+
 }
