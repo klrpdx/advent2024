@@ -11,8 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class DayTwelveTest {
 
@@ -49,15 +48,15 @@ class DayTwelveTest {
 
         Garden plot = new Garden(ascii);
         Graph graph = plot.getGardenGraph();
-        Vertex upperLeft = graph.getLocation(new Point(2, 2));
-        assertEquals("C", upperLeft.getLabel());
+        Vertex middleC = graph.getLocation(new Point(2, 2));
+        assertEquals("C", middleC.getLabel());
 
         Point left = new Point(1, 2);
         Point right = new Point(3, 2);
         Point up = new Point(2, 1);
         Point below = new Point(2, 3);
-        List<Vertex> connections = upperLeft.getConnections();
-        assertEquals(4, connections.size());
+        List<Vertex> connections = middleC.getConnections();
+        assertEquals(8, connections.size());
         assertTrue(connections.contains(new Vertex(left, "B")));
         assertTrue(connections.contains(new Vertex(right, "C")));
         assertTrue(connections.contains(new Vertex(up, "C")));
@@ -257,5 +256,24 @@ class DayTwelveTest {
         Garden garden = new Garden(ascii);
         long price = garden.getFencePrice();
         assertEquals(1930, price);
+    }
+
+    @Test
+    void findCousins() {
+        final String ascii =
+                "AAAA\n" +
+                "BBCD\n" +
+                "BBCC\n" +
+                "EEEC";
+
+
+        Garden plot = new Garden(ascii);
+        Graph graph = plot.getGardenGraph();
+        Vertex b = graph.getLocation(new Point(0, 1));
+        List<Vertex> vertices = b.getCousins();
+        Point c1 = new Point(1, 2);
+        assertEquals(1, vertices.size());
+        assertFalse(vertices.contains(b));
+        assertTrue(vertices.contains(new Vertex(c1, "B")));
     }
 }

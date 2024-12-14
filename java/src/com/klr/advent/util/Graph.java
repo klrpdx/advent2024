@@ -20,32 +20,9 @@ public class Graph {
         return new ArrayList<>(vertices.keySet());
     }
 
-    public void addEdge(Vertex vFrom, Vertex vTo) {
-        vertices.get(vFrom).add(vTo);
-    }
-
-    public List<Vertex> getEdges(Vertex v) {
-        return vertices.get(v);
-    }
-
-    public Set<Vertex> findUniquePathTo(Vertex from, int level) {
-        return new HashSet<>(findAllPathsTo(from, level));
-    }
 
     public Vertex getLocation(Point point) {
         return locations.get(point);
     }
 
-    public List<Vertex> findAllPathsTo(Vertex from, int level) {
-        List<Vertex> ends = new ArrayList<>();
-        List<Vertex> vertices = getEdges(from);
-        for (Vertex v : vertices) {
-            //if (v.getLevel() == level) {
-            //    ends.add(v);
-            //} else {
-              //  ends.addAll(findAllPathsTo(v, level));
-           // }
-        }
-        return ends;
-    }
 }

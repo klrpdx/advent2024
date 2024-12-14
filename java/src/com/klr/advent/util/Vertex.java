@@ -48,8 +48,10 @@ public class Vertex {
             siblings = new HashSet<>();
             for (Vertex vertex : neighbours) {
                 if (vertex.label.equals(label)) {
-                    siblings.add(vertex);
-                    siblings.addAll(vertex.getSiblings());
+                    if (isSibling(vertex)) {
+                        siblings.add(vertex);
+                        siblings.addAll(vertex.getSiblings());
+                    }
                 }
             }
             if (siblings.isEmpty()) {
@@ -59,15 +61,49 @@ public class Vertex {
         return new ArrayList<>(siblings);
     }
 
-    public int getSiblingNeighbors() {
+    private boolean isSibling(Vertex vertex) {
+        return isUpDown(vertex) || isLeftRight(vertex);
+    }
+
+    private boolean isCousin(Vertex vertex) {
+        Point p = vertex.getLocation();
+        return (p.x == location.x+1 && p.y == location.y-1)
+            || (p.x == location.x+1 && p.y == location.y+1)
+            || (p.x == location.x-1 && p.y == location.y-1)
+            || (p.x == location.x-1 && p.y == location.y+1);
+
+    }
+
+    public List<Vertex> getCousins() {
+        List<Vertex> cousins = new ArrayList<>();
+        for (Vertex v : neighbours) {
+            if (v.label.equals(label) && isCousin(v)) {
+                cousins.add(v);
+            }
+        }
+        return cousins;
+    }
+
+    private boolean isLeftRight(Vertex vertex) {
+        Point p = vertex.getLocation();
+        return (p.x == location.x+1 || p.x == location.x-1)  && p.y == location.y;
+    }
+
+    private boolean isUpDown(Vertex vertex) {
+        Point p = vertex.getLocation();
+        return (p.y == location.y+1 || p.y == location.y-1)  && p.x == location.x;
+    }
+
+    public int getNumOfSiblingNeighbors() {
         int count = 0;
         for (Vertex vertex : neighbours) {
-            if (vertex.label.equals(label)) {
+            if (vertex.label.equals(label) && isSibling(vertex)) {
                 count++;
             }
         }
         return count;
     }
+
 }
 
 

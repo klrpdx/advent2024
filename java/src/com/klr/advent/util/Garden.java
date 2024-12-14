@@ -45,18 +45,17 @@ public class Garden {
         List<Vertex> vertices = graph.getAllVertices();
         for (Vertex vertex : vertices) {
             Point location = vertex.getLocation();
-            for (int x = location.x-1; x<=location.x+1; x++) {
-                if (x>=0 && x<width && x != location.x) {
-                    vertex.addEdge(graph.getLocation(new Point(x, location.y)));
-                }
-            }
-            for (int y = location.y-1; y<=location.y+1; y++) {
-                if (y>=0 && y<height && y != location.y) {
-                    vertex.addEdge(graph.getLocation(new Point(location.x, y)));
+            for (int x = location.x - 1; x <= location.x + 1; x++) {
+                for (int y = location.y - 1; y <= location.y + 1; y++) {
+                    if (x >= 0 && x < width && y >= 0 && y < height) {
+                        Point neighbor = new Point(x, y);
+                        if (!neighbor.equals(location)) {
+                            vertex.addEdge(graph.getLocation(neighbor));
+                        }
+                    }
                 }
             }
         }
-
         return graph;
     }
 
