@@ -31,11 +31,16 @@ public class DayFourteen {
         return room.getSafetyScore();
     }
 
+    public int solvePart2() throws IOException {
+        Room room = loadInput();
+        room.populateRoom();
+        return room.minEntropy();
+    }
 
 
     public static void main(String[] args) throws IOException {
         FileLoader fileLoader = new FileLoader("/Users/klr/Projects/advent2024/resources/day14input.txt");
         DayFourteen df = new DayFourteen(fileLoader);
-        System.out.println("Solution Part 1: "+df.solvePart1());
+        System.out.println("Solution Part 2: "+df.solvePart2());
     }
 }

@@ -42,6 +42,10 @@ public class Room {
         print();
     }
 
+    public void print(int time, float distance) {
+        System.out.printf("Elapsed time: %d. Distance: %f\n", time, distance);
+        print();
+    }
     public void print() {
         StringBuilder builder = new StringBuilder();
         for (int y = 0; y < height; y++) {
@@ -73,7 +77,6 @@ public class Room {
     }
 
     public void click() {
-
         for (Robot robot : this.robots) {
             robot.click();
         }
@@ -112,5 +115,39 @@ public class Room {
 
     public Point getLocationForRobot(int i) {
         return robotHash.get(i).getPosition();
+    }
+
+    public int minEntropy() {
+        int maxTime = 10000;
+        float meanDistance = getMeanDistance();
+        int minTime = 0;
+        int clickCount = 0;
+        while (clickCount < maxTime) {
+            clickCount++;
+            click();
+            float newMean = getMeanDistance();
+            if (newMean < meanDistance) {
+                meanDistance = newMean;
+                print(clickCount,meanDistance);
+                minTime = clickCount;
+            }
+        }
+        return clickCount;
+    }
+
+    private float getMeanDistance() {
+        float distanceTotal = 0f;
+        float count = 0f;
+        for (Robot robot : this.robots) {
+            for (Robot otherRobot : this.robots) {
+                if (!otherRobot.equals(robot)) {
+                    int xDelta = robot.getPosition().x - otherRobot.getPosition().x;
+                    int yDelta = robot.getPosition().y - otherRobot.getPosition().y;
+                    distanceTotal += (float) Math.sqrt((xDelta*xDelta) + (yDelta*yDelta));
+                    count++;
+                }
+            }
+        }
+        return distanceTotal / count;
     }
 }
