@@ -6,10 +6,10 @@ import java.awt.Point;
 public class Robot {
 
     private final int id;
-    private Point position;
+    private final Point position;
     private final Velocity velocity;
-    private int maxX;
-    private int maxY;
+    private final int maxX;
+    private final int maxY;
 
     public Robot(int x, int y, int vX, int vY, int maxX, int maxY, int id) {
         this.id = id;
@@ -48,19 +48,21 @@ public class Robot {
     }
 
     public void click() {
-        position.x += velocity.vX();
-        position.y += velocity.vY();
+        int newX = position.x += velocity.vX();
+        int newY = position.y += velocity.vY();
+        position.x = newX % maxX;
+        position.y = newY % maxY;
         if (position.x < 0) {
             position.x = position.x + maxX;
         }
-        if (position.x > maxX) {
-            position.x = position.x - maxX;
-        }
+//        if (position.x > maxX) {
+//            position.x = position.x - maxX;
+//        }
         if (position.y < 0) {
             position.y = position.y + maxY;
         }
-        if (position.y > maxY) {
-            position.y = position.y - maxY;
-        }
+//        if (position.y > maxY) {
+//            position.y = position.y - maxY;
+//        }
     }
 }
