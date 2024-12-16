@@ -48,21 +48,15 @@ public class Robot {
     }
 
     public void click() {
-        int newX = position.x += velocity.vX();
-        int newY = position.y += velocity.vY();
+        int newX = position.x + velocity.vX();
+        int newY = position.y + velocity.vY();
         position.x = newX % maxX;
         position.y = newY % maxY;
         if (position.x < 0) {
             position.x = position.x + maxX;
         }
-//        if (position.x > maxX) {
-//            position.x = position.x - maxX;
-//        }
         if (position.y < 0) {
             position.y = position.y + maxY;
         }
-//        if (position.y > maxY) {
-//            position.y = position.y - maxY;
-//        }
     }
 }
