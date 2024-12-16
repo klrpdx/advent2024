@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.awt.Point;
 
 public class Room {
 
@@ -32,7 +33,7 @@ public class Room {
                  int y = Integer.parseInt(matcher.group(2));
                  int vX = Integer.parseInt(matcher.group(3));
                  int vY = Integer.parseInt(matcher.group(4));
-                 robots.add(new Robot(x, y, vX, vY, i));
+                 robots.add(new Robot(x, y, vX, vY, width, height, i));
             }
         }
     }
@@ -44,5 +45,11 @@ public class Room {
             count += robot.atPosition(p) ? 1 : 0;
         }
         return count;
+    }
+
+    public void click() {
+        for (Robot robot : this.robots) {
+            robot.click();
+        }
     }
 }

@@ -1,10 +1,10 @@
 package com.klr.advent;
 
-import com.klr.advent.util.Point;
 import com.klr.advent.util.Robot;
 import com.klr.advent.util.Room;
 import com.klr.advent.util.Velocity;
 import org.junit.jupiter.api.Test;
+import java.awt.Point;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,8 +36,8 @@ class DayFourteenTest {
         int vX = 3, vY = -3;
         int id = 99;
         int id2 = 9;
-        Robot robot1 = new Robot(x,y,vX,vY, id);
-        Robot robot2 = new Robot(x,y,vX,vY, id2);
+        Robot robot1 = new Robot(x,y,vX,vY,1,1, id);
+        Robot robot2 = new Robot(x,y,vX,vY,1,2, id2);
 
         assertAll("Correct robot",
                 () -> assertEquals(new Point(x,y), robot1.getPosition()),
@@ -46,4 +46,21 @@ class DayFourteenTest {
         );
     }
 
+    @Test
+    void moveRobot() {
+        String input = "p=0,4 v=3,3";
+        Room room = new Room(101,103, input);
+        room.populateRoom();
+        room.click();
+        assertEquals(1,room.getNumberOfRobotsAt(3,7));
+    }
+
+    @Test
+    void moveRobotOffEnd() {
+        String input = "p=4,4 v=3,3";
+        Room room = new Room(5,5, input);
+        room.populateRoom();
+        room.click();
+        assertEquals(1,room.getNumberOfRobotsAt(2,2));
+    }
 }
