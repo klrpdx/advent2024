@@ -24,10 +24,22 @@ public class Warehouse {
         return moved;
     }
 
+    public boolean moveRobotOneStepWide() {
+        boolean moved = robot.moveFat(movementMap[moveNumber++]);
+        return moved;
+    }
+
 
     public void startRobot() {
         while (moveNumber < movementMap.length) {
             moveRobotOneStep();
+        }
+        System.out.println("Total moves: "+moveNumber);
+    }
+
+    public void startRobotWide() {
+        while (moveNumber < movementMap.length) {
+            moveRobotOneStepWide();
         }
         System.out.println("Total moves: "+moveNumber);
     }
@@ -45,6 +57,46 @@ public class Warehouse {
             for (int i = 0; i < chars.length; i++) {
                 WarehouseObject object = null;
                 Point p = new Point(i,row);
+                object = switch (chars[i]) {
+                    case '#' -> new WarehouseWall(p, locationMap);
+                    case 'O' -> new WarehouseBox(p, locationMap);
+                    case '@' -> new WarehouseRobot(p,locationMap);
+                    default -> null;
+                };
+                if (object != null) {
+                    reverseLocationMap.put(object, object.getLocation());
+                    if (object instanceof WarehouseRobot) {
+                        robot = (WarehouseRobot) object;
+                    }
+                }
+            }
+            row++;
+        }
+        height = row;
+
+        StringBuilder builder = new StringBuilder();
+        for (int i = row+1; i < lines.length; i++) {
+            builder.append(lines[i]);
+        }
+        String instructions = builder.toString();
+        instructions = instructions.replaceAll("/n","");
+        createMovementMap(instructions);
+
+    }
+
+    public void createFat() {
+        String[] lines = asciiMap.split("\n");
+
+        int row = 0;
+        for (String line : lines) {
+            if (line.isEmpty()) {
+                break;
+            }
+            char[] chars = line.toCharArray();
+            width = chars.length*2;
+            for (int i = 0; i < chars.length; i++) {
+                WarehouseObject object = null;
+                Point p = new Point(i*2,row);
                 object = switch (chars[i]) {
                     case '#' -> new WarehouseWall(p, locationMap);
                     case 'O' -> new WarehouseBox(p, locationMap);
@@ -91,6 +143,35 @@ public class Warehouse {
             for (int x = 0; x < width; x++) {
                 WarehouseObject object = locationMap.get(new Point(x, y));
                 String square = object == null ? "." : object.toString();
+                builder.append(square);
+            }
+            builder.append("\n");
+        }
+        System.out.println(builder);
+    }
+
+    public void printWide() {
+        StringBuilder builder = new StringBuilder();
+        for (int y = 0; y < height; y++) {
+            int x =0;
+            while (x < width) {
+                WarehouseObject object = locationMap.get(new Point(x, y));
+                String square = ".";
+                if (object instanceof WarehouseRobot) {
+                    square = "@";
+                    x++;
+                }
+                else if (object instanceof WarehouseWall) {
+                    square = "##";
+                    x+=2;
+                }
+                else if (object instanceof WarehouseBox) {
+                    square = "[]";
+                    x+=2;
+                }
+                else {
+                    x++;
+                }
                 builder.append(square);
             }
             builder.append("\n");

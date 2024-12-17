@@ -1,6 +1,6 @@
 package com.klr.advent.util;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.Objects;
 
 public class TrailVertex {

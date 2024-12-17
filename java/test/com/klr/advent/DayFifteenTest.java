@@ -252,4 +252,33 @@ class DayFifteenTest {
         long score = warehouse.getScore();
         assertEquals(10092L, score);
     }
+
+    @Test
+    void fatMap() {
+        String asciiMap = "##########\n" +
+                "#..O..O.O#\n" +
+                "#......O.#\n" +
+                "#.OO..O.O#\n" +
+                "#..O@..O.#\n" +
+                "#O#..O...#\n" +
+                "#O..O..O.#\n" +
+                "#.OO.O.OO#\n" +
+                "#....O...#\n" +
+                "##########\n" +
+                "\n" +
+                "v<";
+
+
+        Warehouse warehouse = new Warehouse(asciiMap);
+        warehouse.createFat();
+        warehouse.printWide();
+        warehouse.startRobotWide();
+        warehouse.printWide();
+        Point robot = warehouse.findRobot();
+        System.out.println(robot.getLocation());
+//        warehouse.moveRobotOneStep();
+//        assertEquals(new Point(3,4), robot);
+//        WarehouseObject object =  warehouse.getAt(new Point(2,4));
+//        assertInstanceOf(WarehouseBox.class, object);
+    }
 }

@@ -8,6 +8,7 @@ public class WarehouseWall extends WarehouseObject {
     public WarehouseWall(Point p, Map<Point, WarehouseObject> locationMap) {
         super(p, locationMap);
         icon = "#";
+        fatIcon = "##";
     }
 
     @Override

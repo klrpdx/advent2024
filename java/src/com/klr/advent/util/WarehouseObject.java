@@ -7,6 +7,7 @@ public abstract class WarehouseObject {
 
     protected final Point location;
     protected String icon = "?";
+    protected String fatIcon = "??";
     protected Map<Point, WarehouseObject> map;
 
     public WarehouseObject(Point location, Map<Point, WarehouseObject> map) {
@@ -18,6 +19,8 @@ public abstract class WarehouseObject {
     public Point getLocation() {
         return this.location;
     }
+
+    public abstract boolean moveFat(char direction);
 
     public boolean move(char direction) {
         boolean moved = true;
@@ -54,5 +57,9 @@ public abstract class WarehouseObject {
 
     public String toString() {
         return icon;
+    }
+
+    public String toStringWide() {
+        return fatIcon;
     }
 }
