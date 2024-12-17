@@ -19,11 +19,18 @@ public class Warehouse {
         this.asciiMap = asciiMap;
     }
 
-    public boolean moveRobot() {
+    public boolean moveRobotOneStep() {
         boolean moved = robot.move(movementMap[moveNumber++]);
         return moved;
     }
 
+
+    public void startRobot() {
+        while (moveNumber < movementMap.length) {
+            moveRobotOneStep();
+        }
+        System.out.println("Total moves: "+moveNumber);
+    }
 
     public void create() {
         String[] lines = asciiMap.split("\n");
@@ -55,7 +62,13 @@ public class Warehouse {
         }
         height = row;
 
-        createMovementMap(lines[row+1]);
+        StringBuilder builder = new StringBuilder();
+        for (int i = row+1; i < lines.length; i++) {
+            builder.append(lines[i]);
+        }
+        String instructions = builder.toString();
+        instructions = instructions.replaceAll("/n","");
+        createMovementMap(instructions);
 
     }
 
@@ -74,14 +87,9 @@ public class Warehouse {
 
     public void print() {
         StringBuilder builder = new StringBuilder();
-        Map<Point, WarehouseObject> map = new HashMap<>();
-        for (WarehouseObject object : reverseLocationMap.keySet()) {
-            Point location = object.getLocation();
-            map.put(location, object);
-        }
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                WarehouseObject object = map.get(new Point(x, y));
+                WarehouseObject object = locationMap.get(new Point(x, y));
                 String square = object == null ? "." : object.toString();
                 builder.append(square);
             }
@@ -90,4 +98,14 @@ public class Warehouse {
         System.out.println(builder);
     }
 
+    public long getScore() {
+        long score = 0;
+        for (WarehouseObject object : locationMap.values()) {
+            if (object instanceof WarehouseBox) {
+                WarehouseBox box = (WarehouseBox) object;
+                score += (long) (box.getLocation().getY() * 100 + box.getLocation().getX());
+            }
+        }
+        return score;
+    }
 }

@@ -56,9 +56,9 @@ class DayFifteenTest {
         Warehouse warehouse = new Warehouse(asciiMap);
         warehouse.create();
         Point robot = warehouse.findRobot();
-        warehouse.moveRobot();
-        warehouse.moveRobot();
-        warehouse.moveRobot();
+        warehouse.moveRobotOneStep();
+        warehouse.moveRobotOneStep();
+        warehouse.moveRobotOneStep();
         assertEquals(new Point(4,1), robot);
     }
 
@@ -81,10 +81,10 @@ class DayFifteenTest {
         Warehouse warehouse = new Warehouse(asciiMap);
         warehouse.create();
         Point robot = warehouse.findRobot();
-        warehouse.moveRobot();
-        warehouse.moveRobot();
-        warehouse.moveRobot();
-        assertFalse(warehouse.moveRobot());
+        warehouse.moveRobotOneStep();
+        warehouse.moveRobotOneStep();
+        warehouse.moveRobotOneStep();
+        assertFalse(warehouse.moveRobotOneStep());
         assertEquals(new Point(4,1), robot);
         warehouse.print();
     }
@@ -108,7 +108,7 @@ class DayFifteenTest {
         Warehouse warehouse = new Warehouse(asciiMap);
         warehouse.create();
         Point robot = warehouse.findRobot();
-        warehouse.moveRobot();
+        warehouse.moveRobotOneStep();
         assertEquals(new Point(3,4), robot);
         WarehouseObject object =  warehouse.getAt(new Point(2,4));
         assertInstanceOf(WarehouseBox.class, object);
@@ -134,13 +134,122 @@ class DayFifteenTest {
         Warehouse warehouse = new Warehouse(asciiMap);
         warehouse.create();
         Point robot = warehouse.findRobot();
-        warehouse.moveRobot();
-        warehouse.moveRobot();
-        assertFalse(warehouse.moveRobot());
+        warehouse.moveRobotOneStep();
+        warehouse.moveRobotOneStep();
+        assertFalse(warehouse.moveRobotOneStep());
 
         WarehouseObject object =  warehouse.getAt(new Point(1,4));
         assertInstanceOf(WarehouseBox.class, object);
         warehouse.print();
     }
 
+    @Test
+    void moveBoxesIntoWall() {
+        String asciiMap = "##########\n" +
+                "#..O..O.O#\n" +
+                "#......O.#\n" +
+                "#.OO..O.O#\n" +
+                "#..O@..O.#\n" +
+                "#O#..O...#\n" +
+                "#O..O..O.#\n" +
+                "#.OO.O.OO#\n" +
+                "#....O...#\n" +
+                "##########\n" +
+                "\n" +
+                "v<^^^";
+
+
+        Warehouse warehouse = new Warehouse(asciiMap);
+        warehouse.create();
+        Point robot = warehouse.findRobot();
+        warehouse.moveRobotOneStep();
+        warehouse.moveRobotOneStep();
+        warehouse.moveRobotOneStep();
+        assertFalse(warehouse.moveRobotOneStep());
+
+        WarehouseObject object =  warehouse.getAt(new Point(3,2));
+        WarehouseObject object2 =  warehouse.getAt(new Point(3,3));
+        WarehouseObject object3 =  warehouse.getAt(new Point(3,1));
+        assertInstanceOf(WarehouseBox.class, object);
+        assertInstanceOf(WarehouseBox.class, object2);
+        assertInstanceOf(WarehouseBox.class, object3);
+        warehouse.print();
+    }
+
+    @Test
+    void getScore() {
+        String asciiMap = "##########\n" +
+                "#.....O.O#\n" +
+                "#........#\n" +
+                "#........#\n" +
+                "#...@..O.#\n" +
+                "#.#..O...#\n" +
+                "#...O....#\n" +
+                "#........#\n" +
+                "#........#\n" +
+                "##########\n" +
+                "\n" +
+                "v<^^^";
+
+
+        Warehouse warehouse = new Warehouse(asciiMap);
+        warehouse.create();
+        long score = warehouse.getScore();
+        assertEquals(1730L, score);
+    }
+
+    @Test
+    void getScoreSmall() {
+        String asciiMap = "########\n" +
+                "#..O.O.#\n" +
+                "##@.O..#\n" +
+                "#...O..#\n" +
+                "#.#.O..#\n" +
+                "#...O..#\n" +
+                "#......#\n" +
+                "########\n" +
+                "\n" +
+                "<^^>>>vv<v>>v<<";
+
+
+        Warehouse warehouse = new Warehouse(asciiMap);
+        warehouse.create();
+        warehouse.startRobot();
+        warehouse.print();
+        long score = warehouse.getScore();
+        assertEquals(2028L, score);
+    }
+
+    @Test
+    void getScoreLarge() {
+        String asciiMap = "##########\n" +
+                "#..O..O.O#\n" +
+                "#......O.#\n" +
+                "#.OO..O.O#\n" +
+                "#..O@..O.#\n" +
+                "#O#..O...#\n" +
+                "#O..O..O.#\n" +
+                "#.OO.O.OO#\n" +
+                "#....O...#\n" +
+                "##########\n" +
+                "\n" +
+                "<vv>^<v^>v>^vv^v>v<>v^v<v<^vv<<<^><<><>>v<vvv<>^v^>^<<<><<v<<<v^vv^v>^" +
+                "vvv<<^>^v^^><<>>><>^<<><^vv^^<>vvv<>><^^v>^>vv<>v<<<<v<^v>^<^^>>>^<v<v" +
+                "><>vv>v^v^<>><>>>><^^>vv>v<^^^>>v^v^<^^>v^^>v^<^v>v<>>v^v^<v>v^^<^^vv<" +
+                "<<v<^>>^^^^>>>v^<>vvv^><v<<<>^^^vv^<vvv>^>v<^^^^v<>^>vvvv><>>v^<<^^^^^" +
+                "^><^><>>><>^^<<^^v>>><^<v>^<vv>>v>>>^v><>^v><<<<v>>v<v<v>vvv>^<><<>^><" +
+                "^>><>^v<><^vvv<^^<><v<<<<<><^v<<<><<<^^<v<^^^><^>>^<v^><<<^>>^v<v^v<v^" +
+                ">^>>^v>vv>^<<^v<>><<><<v<<v><>v<^vv<<<>^^v^>^^>>><<^v>>v^v><^^>>^<>vv^" +
+                "<><^^>^^^<><vvvvv^v<v<<>^v<v>v<<^><<><<><<<^^<<<^<<>><<><^^^>^^<>^>v<>" +
+                "^^>vv<^v^v<vv>^<><v<^v>^^^>>>^^vvv^>vvv<>>>^<^>>>>>^<<^v>^vvv<>^<><<v>" +
+                "v^^>>><<^^<>>^v^<v^vv<>v^<<>^<^v^v><^<<<><<^<v><v<>vv>>v><v^<vv<>v^<<^";
+
+
+        Warehouse warehouse = new Warehouse(asciiMap);
+        warehouse.create();
+        warehouse.startRobot();
+        warehouse.print();
+        long score = warehouse.getScore();
+        assertEquals(10092L, score);
+    }
 }
