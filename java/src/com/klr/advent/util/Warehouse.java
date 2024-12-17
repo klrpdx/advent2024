@@ -40,6 +40,7 @@ public class Warehouse {
     public void startRobotWide() {
         while (moveNumber < movementMap.length) {
             moveRobotOneStepWide();
+            printWide();
         }
         System.out.println("Total moves: "+moveNumber);
     }

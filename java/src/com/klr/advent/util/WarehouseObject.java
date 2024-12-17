@@ -20,6 +20,8 @@ public abstract class WarehouseObject {
         return this.location;
     }
 
+    public abstract boolean checkMove(char direction);
+
     public abstract boolean moveFat(char direction);
 
     public boolean move(char direction) {

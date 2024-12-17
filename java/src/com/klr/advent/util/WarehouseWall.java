@@ -12,6 +12,16 @@ public class WarehouseWall extends WarehouseObject {
     }
 
     @Override
+    public boolean checkMove(char direction) {
+        return false;
+    }
+
+    @Override
+    public boolean moveFat(char direction) {
+        return false;
+    }
+
+    @Override
     public boolean move(char direction) {
         return false;
     }

@@ -30,11 +30,24 @@ public class DayFifteen {
         return warehouse.getScore();
     }
 
+    public long solvePart2() throws IOException {
+        StringBuilder builder = new StringBuilder();
+        String line;
+        while((line = loader.readLine()) != null) {
+            builder.append(line).append("\n");
+        }
+
+        Warehouse warehouse = new Warehouse(builder.toString());
+        warehouse.createFat();
+        warehouse.startRobotWide();
+        warehouse.printWide();
+        return warehouse.getScore();
+    }
 
     public static void main(String[] args) throws IOException {
         FileLoader fileLoader = new FileLoader("/Users/klr/Projects/advent2024/resources/day15input.txt");
         DayFifteen df = new DayFifteen(fileLoader);
-        System.out.println("Solution part 1: "+df.solvePart1());
+        System.out.println("Solution part 2: "+df.solvePart2());
     }
 
 }
