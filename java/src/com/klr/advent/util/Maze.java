@@ -7,7 +7,8 @@ import java.util.Map;
 public class Maze {
     private final String asciiMap;
     private final Map<Point, MazeNode> nodeMap = new Hashtable<>();
-
+    private MazeNode startNode;
+    private MazeNode endNode;
 
     public Maze(String asciiMap) {
         this.asciiMap = asciiMap;
@@ -30,7 +31,11 @@ public class Maze {
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
                 MazeNode node = new MazeNode(array[i][j]);
-                nodeMap.put(new Point(i, j), node);
+                nodeMap.put(new Point(j, i), node);
+                node.setLocation(new Point(j,i));
+                if (node.isStart()) {
+                    startNode = node;
+                }
             }
         }
     }
@@ -40,5 +45,12 @@ public class Maze {
             makeNodes();
         }
         return nodeMap.get(point);
+    }
+
+    public MazeNode startNode() {
+        if (nodeMap.isEmpty()) {
+            makeNodes();
+        }
+        return startNode;
     }
 }

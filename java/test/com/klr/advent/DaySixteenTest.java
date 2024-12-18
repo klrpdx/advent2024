@@ -57,6 +57,29 @@ class DaySixteenTest {
         Maze maze = new Maze(asciiMap);
         MazeNode node = maze.getAt(new Point(8, 1));
         assertTrue(node.isWall());
+    }
 
+
+    @Test
+    public void startNode() {
+        String asciiMap = "###############\n" +
+                "#.......#....E#\n" +
+                "#.#.###.#.###.#\n" +
+                "#.....#.#...#.#\n" +
+                "#.###.#####.#.#\n" +
+                "#.#.#.......#.#\n" +
+                "#.#.#####.###.#\n" +
+                "#...........#.#\n" +
+                "###.#.#####.#.#\n" +
+                "#...#.....#.#.#\n" +
+                "#.#.#.###.#.#.#\n" +
+                "#.....#...#.#.#\n" +
+                "#.###.#.#.#.#.#\n" +
+                "#S..#.....#...#\n" +
+                "###############";
+
+        Maze maze = new Maze(asciiMap);
+        MazeNode node = maze.startNode();
+        assertEquals(new Point(1, 13), node.location());
     }
 }
