@@ -1,7 +1,5 @@
 package com.klr.advent.util;
 
-import net.bytebuddy.build.Plugin;
-
 import java.awt.Point;
 import java.util.*;
 
@@ -19,7 +17,7 @@ public class Maze {
 
     public char[][] makeArray() {
         String[] lines = asciiMap.split("\n");
-        char[][] array = new char[asciiMap.length()][lines[0].length()];
+        char[][] array = new char[lines.length][lines[0].length()];
         int count = 0;
         for (String line : lines) {
             array[count] = line.toCharArray();
@@ -36,10 +34,17 @@ public class Maze {
         return p.x >= 0 && p.x < array[0].length && p.y >= 0 && p.y < array.length;
     }
 
-    private boolean isWall(Point p) {
-        return array[p.y][p.x] == '#';
+    private boolean isOpen(Point p) {
+        return array[p.y][p.x] != '#';
     }
 
+    public MazeNode getStartNode() {
+        makeArray();
+        int height = array.length;
+        MazeNode startNode = new MazeNode(1,height-2);
+        addNeighbors(startNode);
+        return startNode;
+    }
 
 
 
@@ -49,78 +54,71 @@ public class Maze {
         Point south = new Point(nodeLocation.x, nodeLocation.y + 1);
         Point west = new Point(nodeLocation.x - 1, nodeLocation.y);
         Point east = new Point(nodeLocation.x + 1, nodeLocation.y);
-        if (inBounds(north) && !isWall(north)) {
-            node.addNeighbor(new MazeNode(array[north.y][north.x]));
+
+        if (inBounds(north) && isOpen(north)) {
+            addNeighbor(north, node);
+        }
+        if (inBounds(south) && isOpen(south)) {
+            addNeighbor(south, node);
         }
 
-        if (inBounds(south) && !isWall(north)) {
-            node.addNeighbor(new MazeNode(array[south.y][south.x]));
+        if (inBounds(east) && isOpen(east)) {
+            addNeighbor(east, node);
         }
 
-        if (inBounds(east) && !isWall(north)) {
-            node.addNeighbor(new MazeNode(array[east.y][east.x]));
+        if (inBounds(west) && isOpen(west)) {
+            addNeighbor(west, node);
         }
-
-        if (inBounds(west) && !isWall(north)) {
-            node.addNeighbor(new MazeNode(array[west.y][west.x]));
-        }
-
     }
 
-    private Integer getCost(MazeNode n, Compass travelDirection) {
-        Point nodeLocation = n.location();
-
-        return null;
+    private void addNeighbor(Point p, MazeNode parent) {
+        MazeNode node = nodeMap.get(p);
+        if (node == null) {
+            node = new MazeNode(p.x, p.y);
+            nodeMap.put(p, node);
+            parent.addNeighbor(node);
+            node.addParent(parent);
+        }
+        else {
+            if (!node.isParent(parent)) {
+                parent.addNeighbor(node);
+                node.addParent(parent);
+            }
+        }
     }
 
-    public long findLeastCostToEnd() {
-        makeArray();
-        int height = array.length;
-        MazeNode startNode = new MazeNode(array[1][height - 2]);
-        addNeighbors(startNode);
+
+    private Integer getCost(MazeNode origin,  MazeNode target, Compass travelDirection) {
+        boolean inLine = travelDirection.inLine(origin.location(), target.location());
+        return inLine ? 1 : 1001;
+    }
+
+    public long findBestPathToEnd() {
+        MazeNode startNode = getStartNode();
 
         Map<MazeNode, Integer> costs = new HashMap<>();
         Map<MazeNode, MazeNode> parents = new HashMap<>();
         List<MazeNode> visited = new ArrayList<>();
         Compass travelDirection = Compass.EAST;
-
 
         for (MazeNode n : startNode.getNeighbors()) {
-            costs.put(n, getCost(n, travelDirection));
+            costs.put(n, getCost(startNode,  n, travelDirection));
         }
 
-        return 0;
+        return dijkstraScore(costs, visited, parents, travelDirection);
     }
 
 
-    public long dijkstraScore() {
+    public long dijkstraScore(Map<MazeNode, Integer> costs, List<MazeNode> visited, Map<MazeNode, MazeNode> parents, Compass travelDirection) {
         long totalCost = 0;
-        Map<MazeNode, Integer> costs = new HashMap<>();
-        Map<MazeNode, MazeNode> parents = new HashMap<>();
-        List<MazeNode> visited = new ArrayList<>();
-        //MazeNode startNode = startNode();
-        //costs.put(startNode.getNeighbor(Compass.EAST), 1);
-        //costs.put(startNode.getNeighbor(Compass.NORTH), 1001);
-        Compass travelDirection = Compass.EAST;
 
         MazeNode current = findLowestCostNode(costs, visited);
         while (current != null) {
             int cost = costs.get(current);
-            //MazeNode cheapNeighbor = current.getNeighbor(travelDirection);
-            //List<MazeNode> expensiveNeighbors = current.getOtherNeighbors(travelDirection);
-            Map<MazeNode, Integer> myCosts = new HashMap<>();
-            List<MazeNode> neighbors = new ArrayList<>(myCosts.keySet());
-//            if (cheapNeighbor != null) {
-//                myCosts.put(cheapNeighbor, 1);
-//                neighbors.add(cheapNeighbor);
-//            }
-//            for (MazeNode neighbor : expensiveNeighbors) {
-//                myCosts.put(neighbor, 1001);
-//            }
-
-            for (MazeNode neighbor : neighbors) {
-                int newCost = cost + myCosts.get(neighbor);
-                if (costs.get(neighbor) == null || costs.get(neighbor) > newCost) {
+            for (MazeNode neighbor : current.getNeighbors()) {
+                int newCost = cost + getCost(current, neighbor, travelDirection );
+                Integer neighborCost = costs.get(neighbor);
+                if (neighborCost == null ||  neighborCost > newCost) {
                     costs.put(neighbor, newCost);
                     parents.put(neighbor, current);
                 }
@@ -140,6 +138,9 @@ public class Maze {
                 lowestCost = cost;
                 lowestCostNode = node;
             }
+        }
+        if (lowestCostNode != null) {
+            addNeighbors(lowestCostNode);
         }
         return lowestCostNode;
     }

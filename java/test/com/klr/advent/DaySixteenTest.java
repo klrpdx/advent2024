@@ -2,11 +2,10 @@ package com.klr.advent;
 
 import com.klr.advent.util.Maze;
 import com.klr.advent.util.MazeNode;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.awt.Point;
-import java.util.Collections;
-import java.util.List;
+import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,16 +38,10 @@ class DaySixteenTest {
     }
 
 
-
-
-
-
-
-
     @Test
-    public void bestPath() {
-        String asciiMap =
-                "###############\n" +
+    void startNode() {
+
+        String asciiMap = "###############\n" +
                 "#.......#....E#\n" +
                 "#.#.###.#.###.#\n" +
                 "#.....#.#...#.#\n" +
@@ -65,39 +58,63 @@ class DaySixteenTest {
                 "###############";
 
         Maze maze = new Maze(asciiMap);
-        long score = maze.dijkstraScore();
-        assertEquals(7036, score);
+        Point point = new Point(1, 13);
+        MazeNode startNode = maze.getStartNode();
+        assertEquals(point, startNode.location());
+        assertEquals(2, startNode.getNeighbors().size());
     }
 
+
+    @Test
+    public void bestPath() {
+        String asciiMap =
+                "###############\n" +
+                        "#.......#....E#\n" +
+                        "#.#.###.#.###.#\n" +
+                        "#.....#.#...#.#\n" +
+                        "#.###.#####.#.#\n" +
+                        "#.#.#.......#.#\n" +
+                        "#.#.#####.###.#\n" +
+                        "#...........#.#\n" +
+                        "###.#.#####.#.#\n" +
+                        "#...#.....#.#.#\n" +
+                        "#.#.#.###.#.#.#\n" +
+                        "#.....#...#.#.#\n" +
+                        "#.###.#.#.#.#.#\n" +
+                        "#S..#.....#...#\n" +
+                        "###############";
+
+        Maze maze = new Maze(asciiMap);
+        assertEquals(7036, maze.findBestPathToEnd());
+    }
+
+    @Disabled
     @Test
     public void bestPathLarger() {
         String asciiMap =
                 "#################\n" +
-                "#...#...#...#..E#\n" +
-                "#.#.#.#.#.#.#.#.#\n" +
-                "#.#.#.#...#...#.#\n" +
-                "#.#.#.#.###.#.#.#\n" +
-                "#...#.#.#.....#.#\n" +
-                "#.#.#.#.#.#####.#\n" +
-                "#.#...#.#.#.....#\n" +
-                "#.#.#####.#.###.#\n" +
-                "#.#.#.......#...#\n" +
-                "#.#.###.#####.###\n" +
-                "#.#.#...#.....#.#\n" +
-                "#.#.#.#####.###.#\n" +
-                "#.#.#.........#.#\n" +
-                "#.#.#.#########.#\n" +
-                "#S#.............#\n" +
-                "#################";
+                        "#...#...#...#..E#\n" +
+                        "#.#.#.#.#.#.#.#.#\n" +
+                        "#.#.#.#...#...#.#\n" +
+                        "#.#.#.#.###.#.#.#\n" +
+                        "#...#.#.#.....#.#\n" +
+                        "#.#.#.#.#.#####.#\n" +
+                        "#.#...#.#.#.....#\n" +
+                        "#.#.#####.#.###.#\n" +
+                        "#.#.#.......#...#\n" +
+                        "#.#.###.#####.###\n" +
+                        "#.#.#...#.....#.#\n" +
+                        "#.#.#.#####.###.#\n" +
+                        "#.#.#.........#.#\n" +
+                        "#.#.#.#########.#\n" +
+                        "#S#.............#\n" +
+                        "#################";
 
         Maze maze = new Maze(asciiMap);
-        //List<Long> score = maze.pathsToEnd();
-//        Collections.sort(score);
-//        System.out.println(score);
-//        System.out.println(asciiMap);
-//        assertEquals(11048, score.getFirst());
+        assertEquals(11048, maze.findBestPathToEnd());
     }
 
+    @Disabled
     @Test
     public void bestPathLargerMod() {
         String asciiMap =
@@ -119,12 +136,8 @@ class DaySixteenTest {
                         "#S#...#.........#\n" +
                         "#################";
 
-//        Maze maze = new Maze(asciiMap);
-//        List<Long> score = maze.pathsToEnd();
-//        Collections.sort(score);
-//        System.out.println(score);
-//        System.out.println(asciiMap);
-//        assertEquals(11048, score.getFirst());
+        Maze maze = new Maze(asciiMap);
+        assertEquals(11048, maze.findBestPathToEnd());
     }
 
 }

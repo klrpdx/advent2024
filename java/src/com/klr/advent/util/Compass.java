@@ -3,6 +3,7 @@ package com.klr.advent.util;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.awt.Point;
 
 public enum Compass {
     NORTH(0,-1),
@@ -19,8 +20,8 @@ public enum Compass {
     }
 
     public boolean inLine(Point origin, Point target) {
-        long xDiff = target.x() - origin.x();
-        long yDiff = target.y() - origin.y();
+        int xDiff = target.x - origin.x;
+        int yDiff = target.y - origin.y;
         return xDiff == xDir && yDiff == yDir;
     }
 

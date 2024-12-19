@@ -2,16 +2,18 @@ package com.klr.advent.util;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MazeNode {
 
-    private final char symbol;
     private Point location;
-    private final List<MazeNode> neighbors = new ArrayList<>();
+    private final Set<MazeNode> neighbors = new HashSet<>();
+    private final Set<MazeNode> parents = new HashSet<>();
 
-    public MazeNode(char symbol) {
-        this.symbol = symbol;
+    public MazeNode(int x, int y) {
+        this.location = new Point(x, y);
     }
 
 
@@ -19,16 +21,16 @@ public class MazeNode {
         return new Point(location);
     }
 
-    public boolean isStart() {
-        return symbol == 'S';
-    }
-
-    public boolean isEnd() {
-        return symbol == 'E';
-    }
-
     public void addNeighbor(MazeNode mazeNode) {
         neighbors.add(mazeNode);
+    }
+
+    public void addParent(MazeNode mazeNode) {
+        parents.add(mazeNode);
+    }
+
+    public boolean isParent(MazeNode mazeNode) {
+        return parents.contains(mazeNode);
     }
 
     public boolean contains(MazeNode node) {
