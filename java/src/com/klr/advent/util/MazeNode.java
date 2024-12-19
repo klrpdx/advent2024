@@ -40,6 +40,10 @@ public class MazeNode {
         return neighbors.get(direction);
     }
 
+    public List<MazeNode> getOtherNeighbors(Compass direction) {
+        return neighbors.keySet().stream().filter(k -> k != direction).map(neighbors::get).toList();
+    }
+
     public boolean contains(MazeNode node) {
         return neighbors.containsValue(node);
     }

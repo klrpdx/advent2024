@@ -1,5 +1,7 @@
 package com.klr.advent.util;
 
+import net.bytebuddy.build.Plugin;
+
 import java.awt.Point;
 import java.util.*;
 
@@ -160,6 +162,58 @@ public class Maze {
         visited.remove(node);
         return pathCosts;
     }
+
+    public long dijkstraScore() {
+        long totalCost = 0;
+        Map<MazeNode, Integer> costs = new HashMap<>();
+        Map<MazeNode, MazeNode> parents = new HashMap<>();
+        List<MazeNode> visited = new ArrayList<>();
+        MazeNode startNode = startNode();
+        costs.put(startNode.getNeighbor(Compass.EAST), 1);
+        costs.put(startNode.getNeighbor(Compass.NORTH), 1001);
+        Compass travelDirection = Compass.EAST;
+
+        MazeNode current = findLowestCostNode(costs, visited);
+        while (current != null) {
+            int cost = costs.get(current);
+            MazeNode cheapNeighbor = current.getNeighbor(travelDirection);
+            List<MazeNode> expensiveNeighbors = current.getOtherNeighbors(travelDirection);
+            Map<MazeNode, Integer> myCosts = new HashMap<>();
+            List<MazeNode> neighbors = new ArrayList<>(myCosts.keySet());
+            if (cheapNeighbor != null) {
+                myCosts.put(cheapNeighbor, 1);
+                neighbors.add(cheapNeighbor);
+            }
+            for (MazeNode neighbor : expensiveNeighbors) {
+                myCosts.put(neighbor, 1001);
+            }
+
+            for (MazeNode neighbor : neighbors) {
+                int newCost = cost + myCosts.get(neighbor);
+                if (costs.get(neighbor) == null || costs.get(neighbor) > newCost) {
+                    costs.put(neighbor, newCost);
+                    parents.put(neighbor, current);
+                }
+            }
+            visited.add(current);
+            current = findLowestCostNode(costs, visited);
+        }
+        return totalCost;
+    }
+
+    private MazeNode findLowestCostNode(Map<MazeNode, Integer> costs, List<MazeNode> visited) {
+        int lowestCost = Integer.MAX_VALUE;
+        MazeNode lowestCostNode = null;
+        for (MazeNode node : costs.keySet()) {
+            int cost = costs.get(node);
+            if (cost < lowestCost && !visited.contains(node)) {
+                lowestCost = cost;
+                lowestCostNode = node;
+            }
+        }
+        return lowestCostNode;
+    }
+
 
     public List<Long> pathsToEnd() {
         List<MazeNode> visited = new ArrayList<>();

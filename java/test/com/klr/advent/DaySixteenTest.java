@@ -132,7 +132,8 @@ class DaySixteenTest {
 
     @Test
     public void bestPath() {
-        String asciiMap = "###############\n" +
+        String asciiMap =
+                "###############\n" +
                 "#.......#....E#\n" +
                 "#.#.###.#.###.#\n" +
                 "#.....#.#...#.#\n" +
@@ -149,9 +150,8 @@ class DaySixteenTest {
                 "###############";
 
         Maze maze = new Maze(asciiMap);
-        List<Long> score = maze.pathsToEnd();
-        Collections.sort(score);
-        assertEquals(7036, score.getFirst());
+        long score = maze.dijkstraScore();
+        assertEquals(7036, score);
     }
 
     @Test
