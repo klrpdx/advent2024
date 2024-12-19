@@ -38,11 +38,17 @@ public class Maze {
         return array[p.y][p.x] != '#';
     }
 
-    public MazeNode getStartNode() {
+    public MazeNode getStartAndEndNodes() {
         makeArray();
         int height = array.length;
+        int width = array[0].length;
         MazeNode startNode = new MazeNode(1,height-2);
+        MazeNode endNode = new MazeNode(width-2,height-2);
         addNeighbors(startNode);
+        nodeMap.put(startNode.location(), startNode);
+        nodeMap.put(endNode.location(), endNode);
+        this.startNode = startNode;
+        this.endNode = endNode;
         return startNode;
     }
 
@@ -94,7 +100,7 @@ public class Maze {
     }
 
     public long findBestPathToEnd() {
-        MazeNode startNode = getStartNode();
+        MazeNode startNode = getStartAndEndNodes();
 
         Map<MazeNode, Integer> costs = new HashMap<>();
         Map<MazeNode, MazeNode> parents = new HashMap<>();
@@ -110,8 +116,6 @@ public class Maze {
 
 
     public long dijkstraScore(Map<MazeNode, Integer> costs, List<MazeNode> visited, Map<MazeNode, MazeNode> parents, Compass travelDirection) {
-        long totalCost = 0;
-
         MazeNode current = findLowestCostNode(costs, visited);
         while (current != null) {
             int cost = costs.get(current);
@@ -126,7 +130,7 @@ public class Maze {
             visited.add(current);
             current = findLowestCostNode(costs, visited);
         }
-        return totalCost;
+        return costs.get(endNode);
     }
 
     private MazeNode findLowestCostNode(Map<MazeNode, Integer> costs, List<MazeNode> visited) {

@@ -59,7 +59,7 @@ class DaySixteenTest {
 
         Maze maze = new Maze(asciiMap);
         Point point = new Point(1, 13);
-        MazeNode startNode = maze.getStartNode();
+        MazeNode startNode = maze.getStartAndEndNodes();
         assertEquals(point, startNode.location());
         assertEquals(2, startNode.getNeighbors().size());
     }
