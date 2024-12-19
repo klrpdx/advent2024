@@ -5,66 +5,24 @@ import java.util.HashSet;
 import java.util.Map;
 
 public enum Compass {
-    NORTH, EAST, SOUTH, WEST;
+    NORTH(0,-1),
+    EAST(1,0),
+    SOUTH(0,1),
+    WEST(-1,0);
 
+    private final int xDir;
+    private final int yDir;
 
-    public static int diff(Compass a, Compass b) {
-        int cost = 0;
-        if (a == NORTH) {
-            switch (b) {
-                case SOUTH:
-                    cost = 1;
-                    break;
-                case WEST:
-                    cost = 1;
-                    break;
-                case EAST:
-                    cost = 1;
-                    break;
-            }
-
-        }
-        if (a == SOUTH) {
-            switch (b) {
-                case NORTH:
-                    cost = 1;
-                    break;
-                case WEST:
-                    cost = 1;
-                    break;
-                case EAST:
-                    cost = 1;
-                    break;
-            }
-        }
-        if (a == EAST) {
-            switch (b) {
-                case NORTH:
-                    cost = 1;
-                    break;
-                case WEST:
-                    cost = 1;
-                    break;
-                case SOUTH:
-                    cost = 1;
-                    break;
-            }
-        }
-        if (a == WEST) {
-            switch (b) {
-                case NORTH:
-                    cost = 1;
-                    break;
-                case EAST:
-                    cost = 1;
-                    break;
-                case SOUTH:
-                    cost = 1;
-                    break;
-            }
-        }
-
-        return cost;
+    Compass(int xDir, int yDir) {
+        this.xDir = xDir;
+        this.yDir = yDir;
     }
+
+    public boolean inLine(Point origin, Point target) {
+        long xDiff = target.x() - origin.x();
+        long yDiff = target.y() - origin.y();
+        return xDiff == xDir && yDiff == yDir;
+    }
+
 }
 

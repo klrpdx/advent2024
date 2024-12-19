@@ -2,57 +2,40 @@ package com.klr.advent.util;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MazeNode {
 
     private final char symbol;
     private Point location;
-    private final Map<Compass, MazeNode> neighbors = new HashMap<>();
+    private final List<MazeNode> neighbors = new ArrayList<>();
 
     public MazeNode(char symbol) {
         this.symbol = symbol;
     }
 
-    public void setLocation(Point point) {
-        this.location = point;
-    }
 
     public Point location() {
-        return location;
-    }
-
-    public boolean isWall() {
-        return symbol == '#';
+        return new Point(location);
     }
 
     public boolean isStart() {
         return symbol == 'S';
     }
 
-    public void addNeighbor(Compass direction,  MazeNode mazeNode) {
-        neighbors.put(direction, mazeNode);
-    }
-
-    public MazeNode getNeighbor(Compass direction) {
-        return neighbors.get(direction);
-    }
-
-    public List<MazeNode> getOtherNeighbors(Compass direction) {
-        return neighbors.keySet().stream().filter(k -> k != direction).map(neighbors::get).toList();
-    }
-
-    public boolean contains(MazeNode node) {
-        return neighbors.containsValue(node);
-    }
-
     public boolean isEnd() {
         return symbol == 'E';
     }
 
+    public void addNeighbor(MazeNode mazeNode) {
+        neighbors.add(mazeNode);
+    }
+
+    public boolean contains(MazeNode node) {
+        return neighbors.contains(node);
+    }
+
     public List<MazeNode> getNeighbors() {
-        return new ArrayList<>(neighbors.values());
+        return new ArrayList<>(neighbors);
     }
 }

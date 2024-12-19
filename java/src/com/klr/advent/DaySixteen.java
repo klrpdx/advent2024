@@ -27,10 +27,7 @@ public class DaySixteen {
 
 
     public long solvePart1() throws IOException {
-        Maze maze = new Maze(getAsciiMap());
-        List<Long> scores = maze.pathsToEnd();
-        Collections.sort(scores);
-        return scores.getFirst();
+        return 0;
     }
 
 
