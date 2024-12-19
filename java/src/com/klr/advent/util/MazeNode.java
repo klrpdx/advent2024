@@ -1,11 +1,16 @@
 package com.klr.advent.util;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MazeNode {
 
-    private char symbol;
+    private final char symbol;
     private Point location;
+    private final Map<Compass, MazeNode> neighbors = new HashMap<>();
 
     public MazeNode(char symbol) {
         this.symbol = symbol;
@@ -25,5 +30,25 @@ public class MazeNode {
 
     public boolean isStart() {
         return symbol == 'S';
+    }
+
+    public void addNeighbor(Compass direction,  MazeNode mazeNode) {
+        neighbors.put(direction, mazeNode);
+    }
+
+    public MazeNode getNeighbor(Compass direction) {
+        return neighbors.get(direction);
+    }
+
+    public boolean contains(MazeNode node) {
+        return neighbors.containsValue(node);
+    }
+
+    public boolean isEnd() {
+        return symbol == 'E';
+    }
+
+    public List<MazeNode> getNeighbors() {
+        return new ArrayList<>(neighbors.values());
     }
 }
