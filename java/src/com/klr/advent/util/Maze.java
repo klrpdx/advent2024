@@ -1,10 +1,7 @@
 package com.klr.advent.util;
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Maze {
     private final String asciiMap;
@@ -44,11 +41,19 @@ public class Maze {
                 }
             }
         }
-        getNeighbors(startNode);
+        Set<MazeNode> visitedNodes = new HashSet<>();
+        getNeighbors(startNode, visitedNodes);
     }
 
 
-    public void getNeighbors(MazeNode node) {
+    public void getNeighbors(MazeNode node, Set<MazeNode> visitedNodes) {
+
+        if (visitedNodes.contains(node)) {
+            return;
+        }
+
+        visitedNodes.add(node);
+
         Point nodeLocation = node.location();
         Point north = new Point(nodeLocation.x, nodeLocation.y - 1);
         Point south = new Point(nodeLocation.x, nodeLocation.y + 1);
@@ -59,28 +64,28 @@ public class Maze {
             MazeNode neighborNode = nodeMap.get(north);
             if (!node.contains(neighborNode) && !neighborNode.isWall()) {
                 node.addNeighbor(Compass.NORTH, neighborNode);
-                getNeighbors(neighborNode);
+                getNeighbors(neighborNode, visitedNodes);
             }
         }
         if (inBounds(south)) {
             MazeNode neighborNode = nodeMap.get(south);
             if (!node.contains(neighborNode) && !neighborNode.isWall()) {
                 node.addNeighbor(Compass.SOUTH, neighborNode);
-                getNeighbors(neighborNode);
+                getNeighbors(neighborNode, visitedNodes);
             }
         }
         if (inBounds(east)) {
             MazeNode neighborNode = nodeMap.get(east);
             if (!node.contains(neighborNode) && !neighborNode.isWall()) {
                 node.addNeighbor(Compass.EAST, neighborNode);
-                getNeighbors(neighborNode);
+                getNeighbors(neighborNode, visitedNodes);
             }
         }
         if (inBounds(west)) {
             MazeNode neighborNode = nodeMap.get(west);
             if (!node.contains(neighborNode) && !neighborNode.isWall()) {
                 node.addNeighbor(Compass.WEST, neighborNode);
-                getNeighbors(neighborNode);
+                getNeighbors(neighborNode, visitedNodes);
             }
         }
     }
