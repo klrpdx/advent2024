@@ -11,11 +11,20 @@ public class MazeNode {
     private Point location;
     private final Set<MazeNode> neighbors = new HashSet<>();
     private final Set<MazeNode> parents = new HashSet<>();
+    private boolean LR = true;
+
+    public MazeNode(int x, int y, boolean LR) {
+        this.location = new Point(x, y);
+        this.LR = LR;
+    }
 
     public MazeNode(int x, int y) {
         this.location = new Point(x, y);
     }
 
+    public boolean isLR() {
+        return this.LR;
+    }
 
     public Point location() {
         return new Point(location);
@@ -30,14 +39,11 @@ public class MazeNode {
     }
 
     public boolean isParent(MazeNode mazeNode) {
-        return parents.contains(mazeNode);
-    }
-
-    public boolean contains(MazeNode node) {
-        return neighbors.contains(node);
+        return neighbors.contains(mazeNode);
     }
 
     public List<MazeNode> getNeighbors() {
         return new ArrayList<>(neighbors);
     }
+
 }

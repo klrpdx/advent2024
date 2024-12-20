@@ -27,18 +27,20 @@ public class DaySixteen {
 
 
     public long solvePart1() throws IOException {
-        return 0;
+        Maze maze = new Maze(getAsciiMap());
+        return maze.findBestPathToEnd();
     }
 
 
-    public long solvePart2() {
-        return 0;
+    public long solvePart2() throws IOException {
+        Maze maze = new Maze(getAsciiMap());
+        return maze.getBestPathLength();
     }
 
     public static void main(String[] args)  throws IOException {
         FileLoader loader = new FileLoader("/Users/klr/Projects/advent2024/resources/day16input.txt");
         DaySixteen ds = new DaySixteen(loader);
-        System.out.println("Solution (part 1): "+ds.solvePart1());
+        System.out.println("Solution, Part 2: "+ds.solvePart2());
     }
 
 }

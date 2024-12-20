@@ -88,7 +88,19 @@ class DaySixteenTest {
         assertEquals(7036, maze.findBestPathToEnd());
     }
 
-    @Disabled
+    @Test
+    public void bestPathSimple() {
+        String asciiMap =
+                "############\n" +
+                "#.........E#\n" +
+                "#.########.#\n" +
+                "#S.........#\n" +
+                "############";
+
+        Maze maze = new Maze(asciiMap);
+        assertEquals(1011, maze.findBestPathToEnd());
+    }
+
     @Test
     public void bestPathLarger() {
         String asciiMap =
@@ -114,30 +126,40 @@ class DaySixteenTest {
         assertEquals(11048, maze.findBestPathToEnd());
     }
 
-    @Disabled
     @Test
-    public void bestPathLargerMod() {
+    public void numberOfStepsToGoal() {
         String asciiMap =
-                "#################\n" +
-                        "#...#...#...#..E#\n" +
-                        "#.#.#.#.#.#.#.#.#\n" +
-                        "#.#.#.#...#...#.#\n" +
-                        "#####.#.###.#.#.#\n" +
-                        "#...#.#.#.....#.#\n" +
-                        "#.#.#.#.#.#####.#\n" +
-                        "#.#.#.#.#.#...#.#\n" +
-                        "#.#.#####.#.###.#\n" +
-                        "#.#.#.......#...#\n" +
-                        "#.#.###.#####.###\n" +
-                        "#.#.#...###...#.#\n" +
-                        "#.#.#######.###.#\n" +
-                        "#.#.#.......###.#\n" +
-                        "#.#.#.#########.#\n" +
-                        "#S#...#.........#\n" +
-                        "#################";
+                "###############\n" +
+                        "#.......#....E#\n" +
+                        "#.#.###.#.###.#\n" +
+                        "#.....#.#...#.#\n" +
+                        "#.###.#####.#.#\n" +
+                        "#.#.#.......#.#\n" +
+                        "#.#.#####.###.#\n" +
+                        "#...........#.#\n" +
+                        "###.#.#####.#.#\n" +
+                        "#...#.....#.#.#\n" +
+                        "#.#.#.###.#.#.#\n" +
+                        "#.....#...#.#.#\n" +
+                        "#.###.#.#.#.#.#\n" +
+                        "#S..#.....#...#\n" +
+                        "###############";
 
         Maze maze = new Maze(asciiMap);
-        assertEquals(11048, maze.findBestPathToEnd());
+        assertEquals(45, maze.getBestPathLength());
+    }
+
+    @Test
+    public void stepsSimple() {
+        String asciiMap =
+                "############\n" +
+                        "#.........E#\n" +
+                        "#.########.#\n" +
+                        "#S.........#\n" +
+                        "############";
+
+        Maze maze = new Maze(asciiMap);
+        assertEquals(11, maze.getBestPathLength());
     }
 
 }
