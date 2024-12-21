@@ -2,15 +2,11 @@ package com.klr.advent.seventeen;
 
 public class Operand {
 
-    private final Register registerA;
-    private final Register registerB;
-    private final Register registerC;
+    private final Memory memory;
     private int currentValue;
 
-    public Operand(Register a, Register b, Register c) {
-        registerA = a;
-        registerB = b;
-        registerC = c;
+    public Operand(Memory mem) {
+        this.memory = mem;
     }
 
     public void setValue(int value) {
@@ -24,9 +20,9 @@ public class Operand {
     public int getComboValue() {
         return switch (currentValue) {
             case 0, 1, 2, 3 -> currentValue;
-            case 4 -> registerA.getValue();
-            case 5 -> registerB.getValue();
-            case 6 -> registerC.getValue();
+            case 4 -> memory.getRegisterA();
+            case 5 -> memory.getRegisterB();
+            case 6 -> memory.getRegisterC();
             default -> 0;
         };
     }

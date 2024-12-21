@@ -2,15 +2,15 @@ package com.klr.advent.seventeen;
 
 public class BstInstruction {
 
-    private final Register registerb;
+    private final Memory memory ;
 
 
-    public BstInstruction(Register registerb) {
-        this.registerb = registerb;
+    public BstInstruction(Memory mem) {
+        this.memory = mem;
     }
 
     public Integer process(Operand operand) {
-        registerb.setValue(operand.getComboValue() % 8);
-        return registerb.getValue();
+        memory.setRegisterB(operand.getComboValue() % 8);
+        return memory.getRegisterB();
     }
 }

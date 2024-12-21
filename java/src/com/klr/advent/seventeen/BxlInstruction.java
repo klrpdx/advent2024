@@ -2,16 +2,16 @@ package com.klr.advent.seventeen;
 
 public class BxlInstruction {
 
-    private final Register registerb;
+    private final Memory memory ;
 
-    public BxlInstruction(Register registerb) {
-        this.registerb = registerb;
+    public BxlInstruction(Memory mem) {
+        this.memory = mem;
     }
 
     public Integer process(Operand operand) {
         int operandValue = operand.getValue();
-        int bitwise = registerb.getValue() ^ operandValue;
-        registerb.setValue(bitwise);
-        return registerb.getValue();
+        int bitwise = memory.getRegisterB() ^ operandValue;
+        memory.setRegisterB(bitwise);
+        return memory.getRegisterB();
     }
 }
