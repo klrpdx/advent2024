@@ -7,7 +7,7 @@ public class Maze {
     private final String asciiMap;
     private char[][] array;
     private final Map<Point, MazeNode> nodeMap = new Hashtable<>();
-    private final Map<MazeNode, List<MazeNode>> parents = new HashMap<>();
+    private final Map<MazeNode, MazeNode> parents = new HashMap<>();
     private MazeNode endNode;
 
     public Maze(String asciiMap) {
@@ -113,22 +113,19 @@ public class Maze {
     public int getBestPathLength() {
         findBestPathToEnd();
         int count = 0;
-        List<MazeNode> parentList = parents.get(endNode);
-        count = countParents(parentList) + 1;
+        MazeNode parent = parents.get(endNode);
+        while (parent != null) {
+            count++;
+            parent = parents.get(parent);
+        }
+        List<MazeNode> allParents = new ArrayList<>(parents.keySet());
+        Set<MazeNode> allValues = new HashSet<>(parents.values());
+        System.out.println(allParents.size() + " " + allValues.size());
+
+
         return count;
     }
 
-    private int countParents(List<MazeNode> parentList) {
-        int count = 0;
-        if (parentList == null) {
-            return count;
-        }
-        count++;
-        for (MazeNode parent : parentList) {
-            count += countParents(parents.get(parent));
-        }
-        return count;
-    }
 
 
     public long dijkstraScore(Map<MazeNode, Integer> costs, List<MazeNode> visited) {
@@ -140,12 +137,7 @@ public class Maze {
                 Integer neighborCost = costs.get(neighbor);
                 if (neighborCost == null ||  neighborCost > newCost) {
                     costs.put(neighbor, newCost);
-                    List<MazeNode> rents = parents.get(neighbor);
-                    if (rents == null) {
-                        rents = new ArrayList<>();
-                    }
-                    rents.add(current);
-                    parents.put(neighbor, rents);
+                    parents.put(neighbor, current);
                 }
             }
             visited.add(current);
