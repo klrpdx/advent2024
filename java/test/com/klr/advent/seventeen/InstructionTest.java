@@ -43,5 +43,20 @@ public class InstructionTest {
         assertEquals(232, registerb.getValue());
     }
 
+    @Test
+    void bstInstruction() {
+        Register registerb = new Register();
+        registerb.setValue(236);
+        Register registerC = new Register();
+        registerC.setValue(2);
+
+        BstInstruction bst = new BstInstruction(registerb);
+
+        Operand operand = new Operand(null, registerb, registerC);
+        operand.setValue(6);
+        bst.process(operand);
+        assertEquals(2, registerb.getValue());
+    }
+
 
 }
