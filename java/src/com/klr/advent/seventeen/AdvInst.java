@@ -2,14 +2,14 @@ package com.klr.advent.seventeen;
 
 public class AdvInst {
 
-    private final RegisterA registerA;
+    private final Register registerA;
 
-    public AdvInst(RegisterA registerA) {
+    public AdvInst(Register registerA) {
         this.registerA = registerA;
     }
 
 
-    public Integer process(int comboOp) {
-        return registerA.getValue()/comboOp;
+    public Integer process(Operand operand) {
+        return (int) (registerA.getValue() / Math.pow(2, operand.getComboValue()));
     }
 }

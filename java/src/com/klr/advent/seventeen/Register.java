@@ -1,6 +1,6 @@
 package com.klr.advent.seventeen;
 
-public class RegisterA {
+public class Register {
 
     private Integer value;
 

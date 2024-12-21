@@ -9,40 +9,39 @@ public class InstructionTest {
 
     @Test
     void advInstruction() {
-        RegisterA registerA = new RegisterA();
+        Register registerA = new Register();
         registerA.setValue(1000);
         AdvInst adv = new AdvInst(registerA);
-        Integer actual = adv.process(3);
-        assertEquals(333, actual);
+        Operand operand = new Operand(registerA, null, null);
+        operand.setValue(3);
+        Integer actual = adv.process(operand);
+        assertEquals(125, actual);
     }
 
     @Test
     void advTruncation() {
-        RegisterA registerA = new RegisterA();
+        Register registerA = new Register();
         registerA.setValue(1000);
+        Register registerC = new Register();
+        registerC.setValue(2);
         AdvInst adv = new AdvInst(registerA);
-        Integer actual = adv.process(7);
-        assertEquals(142, actual);
+        Operand operand = new Operand(registerA, null, registerC);
+        operand.setValue(6);
+        Integer actual = adv.process(operand);
+        assertEquals(250, actual);
     }
 
     @Test
-    void advRegAIsReference() {
-        RegisterA regA = new RegisterA();
-        regA.setValue(1000);
-        AdvInst adv = new AdvInst(regA);
-        Integer actual = adv.process(7);
-        assertEquals(142, actual);
+    void bxlInstruction() {
+        Register registerb = new Register();
+        registerb.setValue(236);
+        BxlInstruction bxl = new BxlInstruction(registerb);
 
-        regA.setValue(777);
-        actual = adv.process(7);
-        assertEquals(111, actual);
+        Operand operand = new Operand(null, registerb, null);
+        operand.setValue(4);
+        bxl.process(operand);
+        assertEquals(232, registerb.getValue());
     }
-
-
-
-
-    //2. Combo object needed and is passed in instead of int
-
 
 
 }
